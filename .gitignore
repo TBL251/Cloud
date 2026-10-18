@@ -13,5 +13,6 @@ Thumbs.db
 raw_dataset/
 processed_dataset/
 *.docx
+*.txt
 *.zip
 *.tar.gz
