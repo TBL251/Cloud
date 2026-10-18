@@ -58,7 +58,7 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
   * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235300.png)
   * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235306.png)
 
-### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 (Theo gợi ý của GVHD)
+### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 
 Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud, sinh viên đã tiến hành khảo sát và chạy thực nghiệm đối sánh giữa **MobileNetV2** và **ResNet-18** trên cùng tập con dữ liệu lá cây (CPU `ml.c5.xlarge`, 8 epochs):
 
 | Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh) | Ý nghĩa trên Điện toán đám mây |
