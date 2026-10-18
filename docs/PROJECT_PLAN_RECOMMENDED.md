@@ -8,29 +8,7 @@
 
 ---
 
-## I. KIỂM TRA & RÀ SOÁT CÔNG VIỆC TUẦN 1
-
-### 1. Yêu cầu của GVHD trong Tuần 1:
-* Tìm hiểu dịch vụ AWS (SageMaker, S3, IAM LabRole).
-* Thiết kế kiến trúc, vẽ sơ đồ hệ thống.
-* Dựng nền tảng trên AWS (S3, VPC, LabRole), cấu hình gắn tag `Project`/`Owner`.
-* Chuẩn bị tập dữ liệu ảnh (lọc $\le$ 2.000 ảnh và đưa lên S3).
-
-### 2. Thực tế Tuần 1 sinh viên đã hoàn thành:
-* [x] Tìm hiểu, nghiên cứu về các công cụ và thuật toán chuẩn bị thực hiện.
-* [x] Xác định chủ đề thực hiện (Phân loại bệnh trên lá cây trồng).
-* [x] Phân chia công việc cụ thể các tuần.
-* [x] Tạo cấu trúc thư mục đồ án và file `README.md`.
-
-### 3. Các công việc Tuần 1 CÒN NỢ (CHƯA XONG) cần chuyển dồn sang Tuần 2:
-* ⚠️ **Chưa thiết kế kiến trúc và chưa vẽ sơ đồ hệ thống (`architecture.png`).**
-* ⚠️ **Chưa tạo S3 Bucket thực tế trên AWS và chưa cấu hình gắn thẻ Tag (`Project`, `Owner`).**
-* ⚠️ **Chưa thu thập, tiền xử lý và chưa upload tập dữ liệu ($\le$ 2.000 ảnh) lên S3.**
-* ⚠️ **Chưa có ảnh chụp minh chứng trên AWS Console (kèm Account ID, Region, thời gian).**
-
----
-
-## II. PHƯƠNG ÁN PHÙ HỢP NHẤT ĐỂ THỰC HIỆN ĐỒ ÁN (OPTIMAL BLUEPRINT)
+## I. PHƯƠNG ÁN KỸ THUẬT PHÙ HỢP NHẤT (OPTIMAL BLUEPRINT)
 
 | Thành phần | Phương án lựa chọn tối ưu | Lý do kỹ thuật & Ràng buộc Learner Lab |
 | :--- | :--- | :--- |
@@ -44,65 +22,45 @@
 
 ---
 
-## III. KẾ HOẠCH ĐIỀU CHỈNH CHI TIẾT (TUẦN 2, 3, 4)
+## II. KẾ HOẠCH TRIỂN KHAI 4 TUẦN
 
-```
-[Tuần 1: Xong]  --> Nghiên cứu công cụ, chọn chủ đề, lập kế hoạch, tạo cấu trúc repo.
-       │
-[Tuần 2: Bù + Lõi] --> Vẽ sơ đồ kiến trúc + Tạo S3/Tags + Chuẩn bị <= 2000 ảnh + Train MobileNetV2 trên ml.c5.xlarge.
-       │
-[Tuần 3: Tích hợp] --> Batch Transform (Confusion Matrix) + Test Endpoint + Giám sát CloudWatch + Script Teardown.
-       │
-[Tuần 4: Tổng kết] --> Kiểm thử E2E + Báo cáo chi phí Billing + Viết Báo cáo PDF + Quay Video Demo <= 10 phút.
-```
-
-### TUẦN 2: BÙ NỀN TẢNG TUẦN 1 & TRIỂN KHAI HUẤN LUYỆN LÕI TRÊN AWS
-* **Công việc bù từ Tuần 1:**
-  1. Thiết kế kiến trúc hệ thống và vẽ sơ đồ tổng thể `architecture/architecture.png`.
-  2. Tạo S3 Bucket tại Region `us-east-1`, cấu hình gán tag `Project: PlantLeafClassification` và `Owner: LeBaTam`.
-  3. Thu thập tập dữ liệu PlantVillage (~1.500 ảnh $\le$ 2.000 ảnh), tiền xử lý resize 224x224, chia tập `train/` (80%) và `val/` (20%), upload lên S3.
-* **Công việc lõi của Tuần 2:**
-  4. Khởi tạo SageMaker Notebook Instance (`ml.t3.medium`), gán quyền `LabRole`.
-  5. Viết mã nguồn huấn luyện Transfer Learning `src/train.py` (MobileNetV2 Script Mode).
-  6. Kích hoạt SageMaker Training Job trên instance CPU `ml.c5.xlarge`, theo dõi Loss/Accuracy qua log, xác nhận model artifact `model.tar.gz` lưu trên S3; dừng Notebook sau phiên làm việc.
-* **Minh chứng bàn giao:**
-  * Sơ đồ kiến trúc `architecture.png`.
-  * Ảnh chụp S3 Console chứa dữ liệu (kèm Account ID, Region `us-east-1`, Tagging).
-  * Ảnh chụp SageMaker Training Job trạng thái `Completed`.
-  * Ảnh chụp file `model.tar.gz` trên S3.
+### TUẦN 1: TÌM HIỂU DỊCH VỤ, THIẾT KẾ KIẾN TRÚC & KHỞI TẠO DỰ ÁN
+* Tìm hiểu các dịch vụ AWS: Amazon SageMaker, Amazon S3, IAM LabRole và các ràng buộc của AWS Learner Lab.
+* Nghiên cứu giải thuật Transfer Learning và lựa chọn mô hình MobileNetV2 tối ưu cho CPU instance.
+* Xác định chủ đề thực hiện: Phân loại bệnh trên lá cây trồng (PlantVillage Corn Leaf Disease).
+* Lập kế hoạch triển khai 4 tuần và bảng dự toán chi phí.
+* Khởi tạo cấu trúc thư mục đồ án chuẩn MLOps và file `README.md`.
 
 ---
 
-### TUẦN 3: TRIỂN KHAI SUY LUẬN, ĐÁNH GIÁ, GIÁM SÁT & TỰ ĐỘNG HÓA
-* **Công việc cụ thể:**
-  1. Cấu hình Amazon CloudWatch Logs & Metrics theo dõi CPUUtilization, MemoryUtilization của job; thiết lập CloudWatch Billing Alarm cảnh báo chi phí.
-  2. Triển khai SageMaker Batch Transform Job trên `ml.c5.xlarge` để dự đoán hàng loạt cho tập ảnh kiểm thử (Test set); tự động giải phóng máy khi xong.
-  3. Thu thập kết quả dự đoán, viết script đánh giá tính Accuracy, Precision, Recall, F1-Score và xuất biểu đồ **Confusion Matrix Heatmap**.
-  4. Viết custom handler `src/inference.py`, triển khai Real-time Endpoint thử nghiệm (`ml.m5.large`), test gửi ảnh dự đoán trực tiếp và **chạy lệnh xóa ngay Endpoint** để tránh phát sinh chi phí.
-  5. Xây dựng script tự động hóa kiểm tra và dọn dẹp tài nguyên `scripts/teardown.py`.
-* **Minh chứng bàn giao:**
-  * Ảnh chụp CloudWatch Dashboard & Billing Alarm.
-  * Ảnh chụp Batch Transform Job status `Completed`.
-  * Biểu đồ Confusion Matrix Heatmap (`confusion_matrix.png`) và bảng chỉ số Accuracy.
-  * Ảnh chụp Endpoint lúc `InService`, ảnh kết quả test và ảnh lệnh xóa Endpoint thành công.
-  * Mã nguồn `scripts/teardown.py`.
+### TUẦN 2: DỰNG NỀN TẢNG AWS & TRIỂN KHAI HUẤN LUYỆN LÕI
+* Thiết kế kiến trúc hệ thống và vẽ sơ đồ tổng thể (`architecture/README.md`).
+* Tạo Amazon S3 Bucket tại Region `us-east-1`, cấu hình gắn thẻ Tag quy chuẩn (`Project: PlantLeafClassification`, `Owner: LeBaTam`).
+* Thu thập tập dữ liệu PlantVillage lá cây bệnh/khỏe, lọc chuẩn hóa quy mô ~1.500 ảnh (dưới 2.000 ảnh, resize 224x224), chia tập Train/Val (80/20) và upload lên S3.
+* Khởi tạo SageMaker Notebook Instance (`ml.t3.medium`), gán quyền IAM `LabRole`, thiết lập môi trường PyTorch.
+* Viết mã nguồn huấn luyện Transfer Learning `src/train.py` (Script Mode với MobileNetV2).
+* Cấu hình PyTorch Estimator SDK, submit Training Job lên instance CPU `ml.c5.xlarge`, lưu model artifact `model.tar.gz` trên S3; dừng Notebook instance sau phiên làm việc.
+
+---
+
+### TUẦN 3: SUY LUẬN, ĐÁNH GIÁ, GIÁM SÁT & TỰ ĐỘNG HÓA
+* Cấu hình Amazon CloudWatch Logs & Metrics theo dõi CPUUtilization, MemoryUtilization trong suốt quá trình huấn luyện; thiết lập CloudWatch Billing Alarm cảnh báo chi phí.
+* Triển khai SageMaker Batch Transform Job trên máy ảo `ml.c5.xlarge` để dự đoán hàng loạt cho tập ảnh kiểm thử (Test set); tự động giải phóng máy khi hoàn thành.
+* Thu thập kết quả dự đoán, viết script tính toán các chỉ số (Accuracy, Precision, Recall, F1-Score) và xuất biểu đồ ma trận nhầm lẫn (Confusion Matrix Heatmap).
+* Viết custom handler `src/inference.py`, deploy Real-time Endpoint thử nghiệm (`ml.m5.large`), test gửi ảnh dự đoán trực tiếp và chạy lệnh xóa ngay Endpoint để tránh phát sinh chi phí.
+* Xây dựng script tự động hóa kiểm tra và dọn dẹp tài nguyên `scripts/teardown.py` để phòng ngừa rò rỉ chi phí trên Learner Lab.
 
 ---
 
 ### TUẦN 4: KIỂM THỬ TỔNG THỂ, TỐI ƯU CHI PHÍ, BÁO CÁO & VIDEO DEMO
-* **Công việc cụ thể:**
-  1. Kiểm thử toàn diện toàn bộ luồng hệ thống E2E; thực thi script `teardown.py` dọn dẹp sạch sẽ 100% tài nguyên tính phí (Endpoint Config, Model, S3 bucket/object, dừng Notebook).
-  2. Truy cập AWS Billing & Cost Management / Cost Explorer, tổng hợp và phân tích chi phí từng dịch vụ đã sử dụng trong suốt 4 tuần (dự kiến < $3 / $100 credit).
-  3. Soạn thảo Báo cáo tổng kết chính thức (Final Report PDF) đầy đủ các nội dung: đặt vấn đề, sơ đồ kiến trúc, cấu hình dịch vụ, giải thuật Transfer Learning, kết quả thực nghiệm (Accuracy, Confusion Matrix) và phần kê khai AI hỗ trợ.
-  4. Quay và biên tập Video Demo sản phẩm (thời lượng $\le$ 10 phút): walkthrough kiến trúc, demo Training Job, demo suy luận/Batch Transform, show billing và chuẩn bị nội dung vấn đáp với GVHD Huỳnh Xuân Phụng.
-* **Minh chứng bàn giao:**
-  * Báo cáo chi phí AWS Billing (có Account ID, Region).
-  * File Báo cáo cuối kỳ hoàn chỉnh (PDF).
-  * Link Video Demo ($\le$ 10 phút) có đầy đủ các phân cảnh theo quy định.
+* Kiểm thử toàn diện toàn bộ luồng hệ thống E2E; thực thi script teardown dọn dẹp sạch sẽ 100% tài nguyên tính phí (Endpoint Config, Model, S3 bucket/object, dừng Notebook).
+* Truy cập AWS Billing & Cost Management / Cost Explorer, tổng hợp và phân tích chi phí từng dịch vụ đã sử dụng trong suốt 4 tuần (dự kiến < $3 / $100 credit).
+* Soạn thảo Báo cáo tổng kết chính thức của đồ án (Final Report PDF): Đặt vấn đề, Sơ đồ kiến trúc, Cấu hình dịch vụ, Huấn luyện Transfer Learning, Đánh giá Confusion Matrix, Kê khai AI.
+* Quay và biên tập Video Demo sản phẩm (thời lượng $\le$ 10 phút): walkthrough kiến trúc, train job, batch transform/endpoint, show billing và chuẩn bị nội dung vấn đáp với GVHD Huỳnh Xuân Phụng.
 
 ---
 
-## IV. BẢNG DỰ TOÁN CHI PHÍ TRÊN AWS LEARNER LAB ($100 CREDIT)
+## III. BẢNG DỰ TOÁN CHI PHÍ TRÊN AWS LEARNER LAB ($100 CREDIT)
 
 | Tài nguyên / Dịch vụ | Cấu hình & Thời gian sử dụng | Chi phí dự kiến |
 | :--- | :--- | :--- |
