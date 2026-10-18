@@ -52,16 +52,17 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
 * SageMaker Training Job tự động hoàn tất và đóng gói Model Artifact thành `model.tar.gz` lưu trữ an toàn trên S3.
   * Link file notebook: [notebooks/02_sagemaker_training.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/02_sagemaker_training.ipynb)
   * Link file script train: [src/train.py](https://github.com/TBL251/Cloud/blob/main/src/train.py)
-  * Link ảnh minh chứng cấu hình PyTorch Estimator: [images/notebook02/Screenshot 2026-10-18 235156.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235156.png)
-  * Link ảnh minh chứng khởi tạo máy ảo ml.c5.xlarge: [images/notebook02/Screenshot 2026-10-18 235222.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235222.png)
-  * Link ảnh minh chứng quá trình huấn luyện qua 8 Epoch (Val Acc 90%): [images/notebook02/Screenshot 2026-10-18 235244.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235244.png)
-  * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235300.png)
-  * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235306.png)
+  * Link ảnh minh chứng cấu hình PyTorch Estimator: [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235156.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235156.png)
+  * Link ảnh minh chứng khởi tạo máy ảo ml.c5.xlarge: [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235222.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235222.png)
+  * Link ảnh minh chứng quá trình huấn luyện qua 8 Epoch (Val Acc 90%): [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235244.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235244.png)
+  * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235300.png)
+  * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235306.png)
 
 ### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 (Dữ liệu Huấn luyện Thật trên SageMaker)
 Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud theo đúng gợi ý của GVHD, sinh viên đã kích hoạt cả 2 Training Job độc lập trên cùng cấu hình CPU instance `ml.c5.xlarge`, cùng tập 1.600 ảnh thật và 8 Epochs:
 * **Mã Training Job MobileNetV2:** `pytorch-training-2026-10-18-16-35-53-425`
 * **Mã Training Job ResNet-18:** `pytorch-training-2026-10-18-18-21-42-644`
+* **Link ảnh minh chứng Training Job ResNet-18 (551 giây tính phí, Best Val Acc 87%):** [images/notebook02/ResNet-18/Screenshot 2026-10-19 013942.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/ResNet-18/Screenshot%202026-10-19%20013942.png)
 
 | Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh thực tế) | Ý nghĩa trên Điện toán đám mây |
 | :--- | :---: | :---: | :--- |
