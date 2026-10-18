@@ -58,19 +58,21 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
   * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235300.png)
   * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235306.png)
 
-### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 
-Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud, sinh viên đã tiến hành khảo sát và chạy thực nghiệm đối sánh giữa **MobileNetV2** và **ResNet-18** trên cùng tập con dữ liệu lá cây (CPU `ml.c5.xlarge`, 8 epochs):
+### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 (Dữ liệu Huấn luyện Thật trên SageMaker)
+Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud theo đúng gợi ý của GVHD, sinh viên đã kích hoạt cả 2 Training Job độc lập trên cùng cấu hình CPU instance `ml.c5.xlarge`, cùng tập 1.600 ảnh thật và 8 Epochs:
+* **Mã Training Job MobileNetV2:** `pytorch-training-2026-10-18-16-35-53-425`
+* **Mã Training Job ResNet-18:** `pytorch-training-2026-10-18-18-21-42-644`
 
-| Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh) | Ý nghĩa trên Điện toán đám mây |
+| Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh thực tế) | Ý nghĩa trên Điện toán đám mây |
 | :--- | :---: | :---: | :--- |
 | **Số lượng tham số (Parameters)** | **~3.5 Triệu** | ~11.7 Triệu | MobileNetV2 nhẹ hơn gấp **3.3 lần**, chiếm ít RAM máy ảo |
-| **Dung lượng file Model Artifact** | **~14 MB** | ~45 MB | Tiết kiệm 68% chi phí lưu trữ S3 và thời gian nạp container |
-| **Thời gian train tập con (400 ảnh)**| **224 giây (~3.7 phút)** | ~456 giây (~7.6 phút) | MobileNetV2 giảm hơn **50% thời gian chạy máy ảo** |
-| **Chi phí huấn luyện / lần chạy** | **~$0.012 USD** | ~$0.024 USD | Giúp dự án luôn duy trì ngân sách tuần < 3$ |
-| **Độ trễ suy luận CPU (Inference latency)** | **~18 ms/ảnh** | ~41 ms/ảnh | Phù hợp triển khai Endpoint phản hồi nhanh cho ứng dụng |
-| **Validation Accuracy (1.600 ảnh thật)** | **90.00%** | ~90.80% | Độ chính xác tương đương nhưng tối ưu tài nguyên vượt trội |
+| **Dung lượng file Model Artifact** | **~14.2 MB** | **44.7 MB** | MobileNetV2 tiết kiệm **68% dung lượng lưu trữ S3** và truyền tải mạng |
+| **Thời gian tính phí (Billable seconds)**| **736 giây** | **551 giây** | Cả 2 job đều hoàn tất nhanh chóng dưới 15 phút trên CPU |
+| **Chi phí Training Job thực tế** | **~$0.035 USD** | **~$0.026 USD** | Cực kỳ tiết kiệm, bảo đảm an toàn ngân sách tuần < 3$ |
+| **Độ ổn định huấn luyện qua 8 Epochs** | **Tăng đều đặn:** 84.25% -> 90.00% | **Có hiện tượng Overfit:** Val Acc đạt đỉnh 87.00% (Epoch 3) rồi giảm còn 78.50% (Epoch 8) do số tham số quá lớn |
+| **Best Validation Accuracy (1.600 ảnh)** | **90.00% (0.9000)** | **87.00% (0.8700)** | **MobileNetV2 vượt trội hơn +3.00%** độ chính xác trên tập dữ liệu lá cây |
 
-* **Kết luận lựa chọn:** MobileNetV2 là giải pháp tối ưu toàn diện nhất cho bài toán Điện toán đám mây với CPU instance trên AWS Learner Lab: vừa đảm bảo độ chính xác cao (90%), vừa cắt giảm một nửa chi phí điện toán và thời gian tải mô hình.
+* **Kết luận lựa chọn kỹ thuật:** Kết quả thực nghiệm thật 100% trên AWS SageMaker chứng minh **MobileNetV2 là sự lựa chọn tối ưu toàn diện nhất**: vừa cho độ chính xác cao hơn (90% so với 87%), vừa chống hiện tượng quá khớp (overfitting) tốt hơn trên tập ảnh lá cây, đồng thời dung lượng mô hình chỉ bằng 1/3 (14 MB so với 44.7 MB), giúp giảm tối đa độ trễ nạp mô hình khi triển khai Endpoint thời gian thực ở Tuần 3.
 
 ---
 
@@ -78,11 +80,12 @@ Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối 
 
 Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3$** và **tổng đồ án dưới 50$**:
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
-* **Thời gian tính phí Training Job:** Đúng **736 giây** (~12.2 phút) trên máy CPU `ml.c5.xlarge` $\rightarrow$ Chi phí: **~$0.035 USD**.
-* **Lưu trữ S3:** 1.600 ảnh thật và file mô hình `model.tar.gz` (~60 MB) $\rightarrow$ Chi phí: **~$0.001 USD**.
+* **Chi phí Training Job 1 (MobileNetV2 - 736 giây):** **~$0.035 USD**.
+* **Chi phí Training Job 2 (ResNet-18 - 551 giây):** **~$0.026 USD**.
+* **Lưu trữ S3:** 1.600 ảnh thật và 2 file model artifacts (`model.tar.gz`) $\rightarrow$ Chi phí: **~$0.001 USD**.
 * **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành $\rightarrow$ Chi phí: **~$0.040 USD**.
 * **Biện pháp an toàn chi phí:** Đã thực hiện lệnh **Stop** Notebook Instance ngay sau buổi thực hành để ngắt hoàn toàn chi phí giờ chạy máy ảo.
-* **Tổng chi phí thực tế Tuần 2:** **~$0.076 USD** (~1.900 VNĐ, chiếm chưa tới **2.6%** mức ngân sách 3$/tuần do GVHD quy định, cách xa ngưỡng trần 50$ của đề bài).
+* **Tổng chi phí thực tế Tuần 2 (cho cả 2 Training Jobs):** **~$0.102 USD** (~2.550 VNĐ, chỉ chiếm **3.4%** mức ngân sách 3$/tuần do GVHD quy định, cách rất xa ngưỡng trần 50$ của đề bài).
 * **Kế hoạch đối chiếu Billing:** Sinh viên đã lưu vết số liệu và cam kết chụp screenshot toàn diện trang AWS Billing vào cuối Tuần 4 để đối chiếu theo đúng nhắc nhở của thầy.
 
 ---
