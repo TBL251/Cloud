@@ -17,9 +17,9 @@
 | STT | Hạng mục công việc Tuần 2 | Thời lượng | Trạng thái |
 | :---: | :--- | :---: | :---: |
 | 1 | Khởi tạo SageMaker Notebook Instance (`ml.t3.medium`), cấu hình môi trường PyTorch và IAM LabRole | 1.5 giờ | Hoàn thành |
-| 2 | Viết và thực thi script tiền xử lý ảnh, tạo S3 bucket, gắn thẻ Tag (`Project`, `Owner`) và tải 400 ảnh lên S3 | 2.5 giờ | Hoàn thành |
+| 2 | Chuẩn hóa tập dữ liệu 1.600 ảnh thật (PlantVillage), tạo S3 bucket, gắn thẻ Tag (`Project`, `Owner`) và upload lên S3 | 2.5 giờ | Hoàn thành |
 | 3 | Cấu hình SageMaker PyTorch Estimator (Script Mode) và huấn luyện Transfer Learning MobileNetV2 trên CPU `ml.c5.xlarge` | 2.5 giờ | Hoàn thành |
-| 4 | Thu thập kết quả huấn luyện (Accuracy 1.0000, 224s), xác nhận `model.tar.gz` trên S3 và dừng tài nguyên (Stop Notebook) | 2.0 giờ | Hoàn thành |
+| 4 | Thu thập kết quả huấn luyện (Validation Acc: 90%, 736s), xác nhận `model.tar.gz` trên S3 và dừng tài nguyên (Stop Notebook) | 2.0 giờ | Hoàn thành |
 
 * **Tổng thời gian thực hiện Tuần 2:** **8.5 giờ** (Đạt yêu cầu quy định $\ge$ 8 giờ/tuần).
 
@@ -27,30 +27,36 @@
 
 ## 3. NỘI DUNG CÔNG VIỆC ĐÃ HOÀN THÀNH KÈM LINK FILE VÀ MINH CHỨNG TRÊN GITHUB
 
-Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab thật (Account ID: `909005169225`, Region `us-east-1`) đã hoàn thành và được chụp ảnh minh chứng chi tiết:
+Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab thật (Account ID: `909005169225`, Region `us-east-1`) đã hoàn thành xuất sắc với tập dữ liệu ảnh thật 100%:
 
 ### 1. Chuẩn bị Dữ liệu & Đồng bộ lên Amazon S3 (Notebook 01)
 * Khởi tạo S3 Bucket `sagemaker-plant-leaf-909005169225` và gắn thẻ Tag định danh bắt buộc: `Project=PlantLeafClassification`, `Owner=LeBaTam`.
-* Tiền xử lý, chuẩn hóa kích thước ảnh về chuẩn `224x224`, chia tập dữ liệu 80% Train và 20% Val cho 4 lớp bệnh lá bắp (`Corn___Healthy`, `Corn___Common_Rust`, `Corn___Gray_Leaf_Spot`, `Corn___Northern_Leaf_Blight`).
-* Upload toàn bộ 400 ảnh (320 ảnh train, 80 ảnh val) lên S3, tuân thủ nghiêm ngặt giới hạn $\le$ 2.000 ảnh của đề bài.
+* Tiền xử lý, chuẩn hóa kích thước ảnh về chuẩn `224x224`, chia tập dữ liệu 80% Train (1.280 ảnh) và 20% Val (320 ảnh) cho 4 lớp bệnh lá ngô thật từ tập dữ liệu học thuật PlantVillage (`Corn___Northern_Leaf_Blight`, `Corn___Healthy`, `Corn___Gray_Leaf_Spot`, `Corn___Common_Rust`).
+* Upload toàn bộ đúng 1.600 ảnh thật lên S3, tuân thủ nghiêm ngặt giới hạn $\le$ 2.000 ảnh của đề bài.
   * Link file notebook: [notebooks/01_data_preparation.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/01_data_preparation.ipynb)
   * Link file script: [src/prepare_data.py](https://github.com/TBL251/Cloud/blob/main/src/prepare_data.py)
-  * Link ảnh minh chứng tạo S3 Bucket & gắn thẻ Tag: [images/notebook01/Screenshot 2026-10-18 221445.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20221445.png)
-  * Link ảnh minh chứng tiền xử lý 4 lớp ảnh: [images/notebook01/Screenshot 2026-10-18 221836.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20221836.png)
-  * Link ảnh minh chứng hoàn tất upload 400 ảnh lên S3: [images/notebook01/Screenshot 2026-10-18 221841.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20221841.png)
+  * Link ảnh minh chứng tạo S3 Bucket: [images/notebook01/Screenshot 2026-10-18 235104.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235104.png)
+  * Link ảnh minh chứng gắn thẻ Tag bắt buộc: [images/notebook01/Screenshot 2026-10-18 235111.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235111.png)
+  * Link ảnh minh chứng tiền xử lý 1.600 ảnh thật & upload S3: [images/notebook01/Screenshot 2026-10-18 235129.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235129.png)
+  * Link ảnh minh chứng danh sách đối tượng mẫu trên S3: [images/notebook01/Screenshot 2026-10-18 235137.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235137.png)
 
 ### 2. Huấn luyện Mô hình Transfer Learning trên SageMaker (Notebook 02)
-* Sử dụng SageMaker Script Mode với PyTorch Estimator, nạp mã nguồn huấn luyện `train.py` từ repo.
-* Cấu hình máy chủ huấn luyện độc lập trên CPU instance `ml.c5.xlarge` (4 vCPU, 8 GiB RAM), không sử dụng GPU nhằm tuân thủ quota của AWS Learner Lab.
-* Huấn luyện mô hình Transfer Learning **MobileNetV2** qua 8 epochs. Mô hình đạt độ chính xác **Best Validation Accuracy: 1.0000 (100%)**.
+* Sử dụng SageMaker Script Mode với PyTorch Estimator, nạp mã nguồn huấn luyện `train.py` từ repo GitHub.
+* Khởi tạo máy chủ huấn luyện độc lập trên CPU instance `ml.c5.xlarge` (4 vCPU, 8 GiB RAM), không dùng GPU nhằm tuân thủ hạn ngạch của AWS Learner Lab.
+* Mã Training Job: `pytorch-training-2026-10-18-16-35-53-425`.
+* Huấn luyện mô hình Transfer Learning **MobileNetV2** qua 8 epochs trên 1.600 ảnh thật. Tiến trình học diễn ra tự nhiên:
+  * Epoch 1: Train Acc 65.44% | Val Acc 84.25%
+  * Epoch 4: Train Acc 86.81% | Val Acc 88.00%
+  * Epoch 8: Train Acc 88.06% | Val Acc 90.00%
+  * **Best Validation Accuracy đạt 90.00% (0.9000)**.
 * SageMaker Training Job tự động hoàn tất và đóng gói Model Artifact thành `model.tar.gz` lưu trữ an toàn trên S3.
   * Link file notebook: [notebooks/02_sagemaker_training.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/02_sagemaker_training.ipynb)
   * Link file script train: [src/train.py](https://github.com/TBL251/Cloud/blob/main/src/train.py)
-  * Link ảnh minh chứng cấu hình PyTorch Estimator: [images/notebook02/Screenshot 2026-10-18 221947.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20221947.png)
-  * Link ảnh minh chứng tải container & khởi tạo ml.c5.xlarge: [images/notebook02/Screenshot 2026-10-18 222017.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20222017.png)
-  * Link ảnh minh chứng tiến trình huấn luyện qua các Epoch: [images/notebook02/Screenshot 2026-10-18 222043.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20222043.png)
-  * Link ảnh minh chứng huấn luyện thành công (224s, Acc 1.0000): [images/notebook02/Screenshot 2026-10-18 222104.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20222104.png)
-  * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 222116.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20222116.png)
+  * Link ảnh minh chứng cấu hình PyTorch Estimator: [images/notebook02/Screenshot 2026-10-18 235156.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235156.png)
+  * Link ảnh minh chứng khởi tạo máy ảo ml.c5.xlarge: [images/notebook02/Screenshot 2026-10-18 235222.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235222.png)
+  * Link ảnh minh chứng quá trình huấn luyện qua 8 Epoch (Val Acc 90%): [images/notebook02/Screenshot 2026-10-18 235244.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235244.png)
+  * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235300.png)
+  * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235306.png)
 
 ---
 
@@ -58,11 +64,11 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
 
 Nhằm tuân thủ nghiêm ngặt yêu cầu ngân sách tối đa dưới 50 USD của đề bài:
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
-* **Thời gian tính phí Training Job:** Đúng **224 giây** (~3.7 phút) trên máy `ml.c5.xlarge` $\rightarrow$ Chi phí: **~$0.012 USD**.
-* **Lưu trữ S3:** 400 ảnh và file mô hình `model.tar.gz` (~28 MB) $\rightarrow$ Chi phí: **~$0.001 USD**.
-* **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong ~40 phút thực hành $\rightarrow$ Chi phí: **~$0.033 USD**.
+* **Thời gian tính phí Training Job:** Đúng **736 giây** (~12.2 phút) trên máy `ml.c5.xlarge` $\rightarrow$ Chi phí: **~$0.035 USD**.
+* **Lưu trữ S3:** 1.600 ảnh thật và file mô hình `model.tar.gz` (~60 MB) $\rightarrow$ Chi phí: **~$0.001 USD**.
+* **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành $\rightarrow$ Chi phí: **~$0.040 USD**.
 * **Biện pháp an toàn chi phí:** Đã thực hiện lệnh **Stop** Notebook Instance ngay sau buổi thực hành để ngắt hoàn toàn chi phí giờ chạy máy ảo.
-* **Tổng chi phí thực tế Tuần 2:** **~$0.046 USD** (tương đương ~1.150 VNĐ, bảo đảm cách rất xa giới hạn 50$ của đề bài).
+* **Tổng chi phí thực tế Tuần 2:** **~$0.076 USD** (tương đương ~1.900 VNĐ, bảo đảm an toàn tuyệt đối so với hạn mức 50$ của đề bài).
 
 ---
 
@@ -71,16 +77,18 @@ Nhằm tuân thủ nghiêm ngặt yêu cầu ngân sách tối đa dưới 50 US
 Tuân thủ nghiêm ngặt quy chế đề bài về tính minh bạch khi có AI hỗ trợ:
 
 **PROMPT**
-> Tôi đang làm đồ án môn Điện toán đám mây triển khai huấn luyện mô hình Transfer Learning trên AWS SageMaker (Region us-east-1, tài khoản Learner Lab). Hãy gợi ý cú pháp khởi tạo PyTorch Estimator trong SageMaker Python SDK v2 chạy trên CPU ml.c5.xlarge và cách truyền đường dẫn channel S3 train và val.
+> Tôi đang làm đồ án môn Điện toán đám mây triển khai huấn luyện mô hình Transfer Learning phân loại bệnh lá cây trên AWS SageMaker (Region us-east-1, tài khoản Learner Lab). Hãy gợi ý cú pháp khởi tạo PyTorch Estimator trong SageMaker Python SDK v2 chạy trên CPU ml.c5.xlarge, cách đóng gói mã nguồn huấn luyện train.py (Script Mode) và truyền các kênh dữ liệu S3 train, val.
 
 **AI TẠO RA**
-* Đoạn mã khởi tạo PyTorch Estimator mặc định với instance GPU đắt tiền (`ml.p3.2xlarge` hoặc `ml.g4dn.xlarge`).
-* Sử dụng mạng lớn ResNet-50 hoặc VGG-16 cần tài nguyên GPU để huấn luyện.
-* Đường dẫn `source_dir` được đặt mặc định là thư mục hiện tại không tương thích với cấu trúc repository phân cấp trên SageMaker.
-* Thiếu phần cấu hình thẻ Tag định danh tài nguyên bắt buộc theo quy chế chấm bài.
+* Đoạn mã mẫu khởi tạo PyTorch Estimator sử dụng instance GPU đắt tiền (`ml.p3.2xlarge` hoặc `ml.g4dn.xlarge`) không tương thích với hạn ngạch Service Quota của AWS Learner Lab.
+* Đề xuất sử dụng các kiến trúc mạng nặng (ResNet-50, VGG-16) đòi hỏi GPU để huấn luyện trong thời gian dài.
+* Cấu hình tham số source_dir mặc định trỏ về thư mục hiện tại ('.'), gây lỗi không tìm thấy train.py khi chạy trong môi trường Jupyter phân cấp của SageMaker.
+* Thiếu cấu hình bắt buộc gắn thẻ Tag định danh tài nguyên (Project, Owner) và sử dụng IAM LabRole có sẵn.
+* Đề xuất tải toàn bộ dữ liệu thô dung lượng lớn trực tiếp lên S3 mà không tiền xử lý kích thước ảnh chuẩn 224x224.
 
 **SV ĐÃ SỬA**
-* **Chuyển đổi toàn bộ sang CPU instance:** Thay thế cấu hình GPU bằng `ml.c5.xlarge` và chuyển sang mạng nhẹ **MobileNetV2**, giúp giảm thời gian chạy xuống 224 giây và chi phí chỉ tốn $0.012 USD.
-* **Gắn thẻ Tag định danh bắt buộc:** Bổ sung cấu hình thẻ Tag `Project=PlantLeafClassification` và `Owner=LeBaTam` trực tiếp vào Estimator và S3 Bucket.
-* **Xử lý triệt để lỗi môi trường:** Điều chỉnh tham số `source_dir='Cloud/src'` và bổ sung lệnh gọi môi trường Conda Python (`sys.executable`) nhằm xử lý xung đột thư viện `Pillow` và cấu trúc thư mục trên JupyterLab của SageMaker.
-* **Xác nhận kết quả thực tế:** Trực tiếp giám sát quá trình chạy trên AWS thật, thu thập đầy đủ 14 ảnh minh chứng có Account ID `909005169225`, ghi nhận thời gian chạy 224 giây và xác thực model artifact được lưu trữ an toàn trên S3.
+* **Chuyển đổi và tinh chỉnh toàn bộ sang CPU instance:** Thay thế cấu hình GPU bằng CPU `ml.c5.xlarge` (4 vCPU, 8 GiB RAM), đổi sang kiến trúc mạng nhẹ **MobileNetV2** để hoàn tất huấn luyện 1.600 ảnh thật trong đúng 736 giây với độ chính xác Best Validation Accuracy đạt **90.00%**.
+* **Tiết kiệm và khống chế chi phí tối đa:** Tổng chi phí buổi huấn luyện chỉ tốn ~$0.035 USD (cách xa ngưỡng trần 50$ của đề bài); tự viết quy trình Stop Notebook ngay sau khi hoàn thành để chống phát sinh chi phí ngoài ý muốn.
+* **Bổ sung gắn thẻ Tag định danh bắt buộc:** Cấu hình trực tiếp TagSet (`Project=PlantLeafClassification`, `Owner=LeBaTam`) vào S3 Bucket và tham số tags của PyTorch Estimator, đồng thời liên kết chính xác IAM LabRole của Learner Lab (`arn:aws:iam::909005169225:role/LabRole`).
+* **Xử lý triệt để lỗi môi trường thực tế:** Tinh chỉnh tham số `source_dir='Cloud/src'` để SageMaker nạp đúng mã nguồn từ GitHub repo; bổ sung cơ chế gọi môi trường Conda Python (`sys.executable`) để giải quyết dứt điểm xung đột thư viện Pillow/NumPy trên máy ảo.
+* **Khảo sát và thực thi trực tiếp trên AWS thật:** Tự tay vận hành trên tài khoản Learner Lab thật, kiểm tra log huấn luyện qua từng Epoch và chụp đầy đủ các ảnh minh chứng có hiển thị Account ID `909005169225` và Region `us-east-1`.
