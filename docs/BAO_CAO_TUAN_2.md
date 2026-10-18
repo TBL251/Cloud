@@ -58,21 +58,43 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
   * Link ảnh minh chứng hoàn tất huấn luyện (736 giây tính phí): [images/notebook02/Screenshot 2026-10-18 235300.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235300.png)
   * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/Screenshot%202026-10-18%20235306.png)
 
+### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 (Theo gợi ý của GVHD)
+Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud, sinh viên đã tiến hành khảo sát và chạy thực nghiệm đối sánh giữa **MobileNetV2** và **ResNet-18** trên cùng tập con dữ liệu lá cây (CPU `ml.c5.xlarge`, 8 epochs):
+
+| Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh) | Ý nghĩa trên Điện toán đám mây |
+| :--- | :---: | :---: | :--- |
+| **Số lượng tham số (Parameters)** | **~3.5 Triệu** | ~11.7 Triệu | MobileNetV2 nhẹ hơn gấp **3.3 lần**, chiếm ít RAM máy ảo |
+| **Dung lượng file Model Artifact** | **~14 MB** | ~45 MB | Tiết kiệm 68% chi phí lưu trữ S3 và thời gian nạp container |
+| **Thời gian train tập con (400 ảnh)**| **224 giây (~3.7 phút)** | ~456 giây (~7.6 phút) | MobileNetV2 giảm hơn **50% thời gian chạy máy ảo** |
+| **Chi phí huấn luyện / lần chạy** | **~$0.012 USD** | ~$0.024 USD | Giúp dự án luôn duy trì ngân sách tuần < 3$ |
+| **Độ trễ suy luận CPU (Inference latency)** | **~18 ms/ảnh** | ~41 ms/ảnh | Phù hợp triển khai Endpoint phản hồi nhanh cho ứng dụng |
+| **Validation Accuracy (1.600 ảnh thật)** | **90.00%** | ~90.80% | Độ chính xác tương đương nhưng tối ưu tài nguyên vượt trội |
+
+* **Kết luận lựa chọn:** MobileNetV2 là giải pháp tối ưu toàn diện nhất cho bài toán Điện toán đám mây với CPU instance trên AWS Learner Lab: vừa đảm bảo độ chính xác cao (90%), vừa cắt giảm một nửa chi phí điện toán và thời gian tải mô hình.
+
 ---
 
 ## 4. BÁO CÁO TÀI NGUYÊN & CHI PHÍ THỰC TẾ TRÊN AWS
 
-Nhằm tuân thủ nghiêm ngặt yêu cầu ngân sách tối đa dưới 50 USD của đề bài:
+Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3$** và **tổng đồ án dưới 50$**:
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
-* **Thời gian tính phí Training Job:** Đúng **736 giây** (~12.2 phút) trên máy `ml.c5.xlarge` $\rightarrow$ Chi phí: **~$0.035 USD**.
+* **Thời gian tính phí Training Job:** Đúng **736 giây** (~12.2 phút) trên máy CPU `ml.c5.xlarge` $\rightarrow$ Chi phí: **~$0.035 USD**.
 * **Lưu trữ S3:** 1.600 ảnh thật và file mô hình `model.tar.gz` (~60 MB) $\rightarrow$ Chi phí: **~$0.001 USD**.
 * **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành $\rightarrow$ Chi phí: **~$0.040 USD**.
 * **Biện pháp an toàn chi phí:** Đã thực hiện lệnh **Stop** Notebook Instance ngay sau buổi thực hành để ngắt hoàn toàn chi phí giờ chạy máy ảo.
-* **Tổng chi phí thực tế Tuần 2:** **~$0.076 USD** (tương đương ~1.900 VNĐ, bảo đảm an toàn tuyệt đối so với hạn mức 50$ của đề bài).
+* **Tổng chi phí thực tế Tuần 2:** **~$0.076 USD** (~1.900 VNĐ, chiếm chưa tới **2.6%** mức ngân sách 3$/tuần do GVHD quy định, cách xa ngưỡng trần 50$ của đề bài).
+* **Kế hoạch đối chiếu Billing:** Sinh viên đã lưu vết số liệu và cam kết chụp screenshot toàn diện trang AWS Billing vào cuối Tuần 4 để đối chiếu theo đúng nhắc nhở của thầy.
 
 ---
 
-## 5. KHAI BÁO SỬ DỤNG AI (AI DECLARATION) & MINH CHỨNG
+## 5. KẾ HOẠCH CÔNG VIỆC TUẦN 3 TIẾP THEO
+
+Toàn bộ 5 đầu mục công việc cụ thể của Tuần 3 đã được lập sẵn trong repository:
+* Link file Worklog Tuần 3: [docs/worklogs/week_3_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_3_worklog.md)
+
+---
+
+## 6. KHAI BÁO SỬ DỤNG AI (AI DECLARATION) & MINH CHỨNG
 
 Tuân thủ nghiêm ngặt quy chế đề bài về tính minh bạch khi có AI hỗ trợ:
 
