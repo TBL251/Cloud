@@ -1,4 +1,4 @@
-# BÁO CÁO TIẾN ĐỘ TUẦN 1 (NỘP LẠI)
+# BÁO CÁO TIẾN ĐỘ TUẦN 1
 **Môn học:** Cloud - Đợt 1 - 2026-2027  
 **Giảng viên hướng dẫn (GVHD):** Huỳnh Xuân Phụng  
 **Đề tài:** Phân loại ảnh bằng Transfer Learning trên SageMaker (Nhóm: AI/ML)  
@@ -31,29 +31,29 @@ Sinh viên đã hoàn thành 100% các đầu việc Tuần 1, toàn bộ mã ng
 
 1. **Khảo sát & Lập Kế hoạch tổng thể 4 tuần:**
    * Nghiên cứu kiến trúc Transfer Learning trên CPU instance (`ml.c5.xlarge`), phương án phục vụ (Batch Transform + Transient Endpoint) và dự toán chi phí chi tiết:  
-     👉 Link file: [docs/PROJECT_PLAN_RECOMMENDED.md](https://github.com/TBL251/Cloud/blob/main/docs/PROJECT_PLAN_RECOMMENDED.md)
+     Link file: [docs/PROJECT_PLAN_RECOMMENDED.md](https://github.com/TBL251/Cloud/blob/main/docs/PROJECT_PLAN_RECOMMENDED.md)
 
 2. **Xác định chủ đề & Định nghĩa nhãn dữ liệu:**
    * Xác định bộ 4 nhãn phân loại lá ngô (Khỏe mạnh, Gỉ sắt, Đốm lá xám, Cháy lá lớn) kèm thông số chuẩn hóa ImageNet:  
-     👉 Link file: [data/class_labels.json](https://github.com/TBL251/Cloud/blob/main/data/class_labels.json)
+     Link file: [data/class_labels.json](https://github.com/TBL251/Cloud/blob/main/data/class_labels.json)
 
 3. **Thiết kế kiến trúc hệ thống AWS & Luồng dữ liệu:**
    * Soạn thảo tài liệu kiến trúc, sơ đồ luồng dữ liệu Mermaid từ S3 đến SageMaker Script Mode:  
-     👉 Link file: [architecture/README.md](https://github.com/TBL251/Cloud/blob/main/architecture/README.md)
+     Link file: [architecture/README.md](https://github.com/TBL251/Cloud/blob/main/architecture/README.md)
 
 4. **Xây dựng cấu trúc đồ án & Hướng dẫn tổng quan:**
    * Khởi tạo cấu trúc repository chuẩn MLOps (`data/`, `src/`, `notebooks/`, `scripts/`, `docs/`, `architecture/`):  
-     👉 Link file: [README.md](https://github.com/TBL251/Cloud/blob/main/README.md)
+     Link file: [README.md](https://github.com/TBL251/Cloud/blob/main/README.md)
 
 5. **Nhật ký công việc Tuần 1 (Worklog Week 1):**
    * Ghi nhận danh mục công việc Tuần 1:  
-     👉 Link file: [docs/worklogs/week_1_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_1_worklog.md)
+     Link file: [docs/worklogs/week_1_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_1_worklog.md)
 
 6. **Điều chỉnh tiến độ cho Tuần 2, 3, 4:**
    * Lập sẵn nhật ký công việc điều chỉnh cho các tuần tiếp theo:  
-     👉 Link file Tuần 2: [docs/worklogs/week_2_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_2_worklog.md)  
-     👉 Link file Tuần 3: [docs/worklogs/week_3_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_3_worklog.md)  
-     👉 Link file Tuần 4: [docs/worklogs/week_4_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_4_worklog.md)
+     Link file Tuần 2: [docs/worklogs/week_2_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_2_worklog.md)  
+     Link file Tuần 3: [docs/worklogs/week_3_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_3_worklog.md)  
+     Link file Tuần 4: [docs/worklogs/week_4_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_4_worklog.md)
 
 ---
 
@@ -62,19 +62,19 @@ Sinh viên đã hoàn thành 100% các đầu việc Tuần 1, toàn bộ mã ng
 Sinh viên thực hiện phân chia công việc và commit mã nguồn theo từng giai đoạn rõ ràng:
 
 * `khoi tao cau truc thu muc du an va file readme`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/93816b0
+  Link commit: https://github.com/TBL251/Cloud/commit/93816b0
 * `dinh nghia cac lop benh la cay va thong so chuan hoa`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/cebcf67
+  Link commit: https://github.com/TBL251/Cloud/commit/cebcf67
 * `thiet ke kien truc he thong sagemaker va ve so do luong du lieu`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/aa636aa
+  Link commit: https://github.com/TBL251/Cloud/commit/aa636aa
 * `len ke hoach trien khai 4 tuan va du toan chi phi`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/12d8534
+  Link commit: https://github.com/TBL251/Cloud/commit/12d8534
 * `them nhat ky cong viec cac tuan tu tuan 1 den tuan 4`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/0cb3446
+  Link commit: https://github.com/TBL251/Cloud/commit/0cb3446
 * `viet script tien xu ly anh va script kiem tra quota aws`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/d03fafc
+  Link commit: https://github.com/TBL251/Cloud/commit/d03fafc
 * `viet script train.py transfer learning mobilenetv2 chay tren sagemaker cpu`  
-  👉 Link commit: https://github.com/TBL251/Cloud/commit/1a26b7a
+  Link commit: https://github.com/TBL251/Cloud/commit/1a26b7a
 
 ---
 
@@ -89,9 +89,5 @@ Tuân thủ nghiêm ngặt quy chế đề bài về việc minh bạch khi có 
 3. **Minh chứng sinh viên tự can thiệp, chỉnh sửa và làm chủ:**
    * Sinh viên tự nghiên cứu tài liệu môn học, tự tay thiết lập cấu trúc đồ án và điều chỉnh các thông số phù hợp với ràng buộc của AWS Learner Lab (chọn mô hình MobileNetV2 chạy trên CPU, giới hạn dataset dưới 2.000 ảnh, cấu hình LabRole).
    * Sinh viên tự viết và tinh chỉnh các file cấu hình, tài liệu kế hoạch và mã nguồn qua từng commit riêng biệt.
-   * Minh chứng qua lịch sử chỉnh sửa mã nguồn: 👉 [Xem Commit Diff tại 12d8534](https://github.com/TBL251/Cloud/commit/12d8534)
-4. **Cam kết của sinh viên:**
-   * Sinh viên hiểu rõ 100% cấu hình, tài liệu và mã nguồn đã cam kết trên GitHub; tự tin giải thích và phản biện trực tiếp trước GVHD Huỳnh Xuân Phụng khi vấn đáp.
+   * Minh chứng qua lịch sử chỉnh sửa mã nguồn: [Xem Commit Diff tại 12d8534](https://github.com/TBL251/Cloud/commit/12d8534)
 
----
-*(Báo cáo được nộp trực tiếp dưới dạng văn bản trong nội dung nộp bài — Tuyệt đối không sử dụng tệp đính kèm .docx).*

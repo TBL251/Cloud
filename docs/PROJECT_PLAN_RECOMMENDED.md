@@ -70,5 +70,3 @@
 | **Real-time Endpoint** | `ml.m5.large` (Bật test & quay video 30 phút rồi xóa) | ~$0.06 |
 | **S3 Storage & CloudWatch** | Dataset < 500 MB + CloudWatch Free Tier | ~$0.02 |
 | **TỔNG CỘNG** | **Toàn bộ quá trình thực hiện 4 tuần** | **~$1.08 - $2.50** |
-
-> **Cam kết an toàn:** Tổng chi phí sử dụng chỉ chiếm **khoảng ~2 - 5%** so với hạn mức chi phí tối đa $50 của đồ án. Thiết lập CloudWatch Billing Alarm ở các mốc $15 và $30 để kiểm soát tuyệt đối, không có nguy cơ vượt ngưỡng $50 nếu tuân thủ việc tắt notebook và xóa endpoint.
