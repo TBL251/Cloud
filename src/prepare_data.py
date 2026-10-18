@@ -17,11 +17,10 @@ if hasattr(sys.stdout, "reconfigure"):
 
 try:
     from PIL import Image
-    import boto3
     import numpy as np
 except ImportError as e:
     print(f"[LỖI] Thiếu thư viện: {e}")
-    print("Vui lòng chạy: pip install pillow boto3 numpy")
+    print("Vui lòng chạy: pip install pillow numpy")
     sys.exit(1)
 
 
@@ -38,6 +37,18 @@ def parse_args():
     return parser.parse_args()
 
 
+CLASS_NAME_MAP = {
+    "Blight": "Corn___Northern_Leaf_Blight",
+    "Common_Rust": "Corn___Common_Rust",
+    "Gray_Leaf_Spot": "Corn___Gray_Leaf_Spot",
+    "Healthy": "Corn___Healthy",
+    "Corn___Northern_Leaf_Blight": "Corn___Northern_Leaf_Blight",
+    "Corn___Common_Rust": "Corn___Common_Rust",
+    "Corn___Gray_Leaf_Spot": "Corn___Gray_Leaf_Spot",
+    "Corn___Healthy": "Corn___Healthy"
+}
+
+
 def process_and_split_dataset(source_dir, output_dir, max_total_images=1600, train_ratio=0.8, image_size=224):
     """Lọc dữ liệu đảm bảo <= 2000 ảnh, resize và chia thư mục train / val."""
     source_path = Path(source_dir)
@@ -51,7 +62,10 @@ def process_and_split_dataset(source_dir, output_dir, max_total_images=1600, tra
     train_path.mkdir(parents=True, exist_ok=True)
     val_path.mkdir(parents=True, exist_ok=True)
 
-    classes = [d.name for d in source_path.iterdir() if d.is_dir()]
+    # Nhận diện các thư mục class hợp lệ
+    classes = [d.name for d in source_path.iterdir() if d.is_dir() and d.name in CLASS_NAME_MAP]
+    if not classes:
+        classes = [d.name for d in source_path.iterdir() if d.is_dir() and d.name != "sample_images"]
     if not classes:
         print(f"[CẢNH BÁO] Không tìm thấy thư mục class nào trong: {source_dir}")
         return 0
@@ -60,15 +74,16 @@ def process_and_split_dataset(source_dir, output_dir, max_total_images=1600, tra
     total_processed = 0
 
     print("=" * 60)
-    print("  BẮT ĐẦU TIỀN XỬ LÝ DỮ LIỆU ẢNH LÁ CÂY")
+    print("  BẮT ĐẦU TIỀN XỬ LÝ DỮ LIỆU ẢNH LÁ CÂY (TẬP DỮ LIỆU THẬT)")
     print("=" * 60)
     print(f"Số lượng lớp nhãn: {len(classes)} ({classes})")
     print(f"Giới hạn tối đa mỗi lớp: {max_per_class} ảnh (Tổng <= {max_total_images} ảnh)")
 
     for cls in classes:
+        canonical_cls = CLASS_NAME_MAP.get(cls, cls)
         cls_source = source_path / cls
-        (train_path / cls).mkdir(parents=True, exist_ok=True)
-        (val_path / cls).mkdir(parents=True, exist_ok=True)
+        (train_path / canonical_cls).mkdir(parents=True, exist_ok=True)
+        (val_path / canonical_cls).mkdir(parents=True, exist_ok=True)
 
         images = [f for f in cls_source.iterdir() if f.suffix.lower() in [".jpg", ".jpeg", ".png"]]
         random.seed(42)
@@ -83,7 +98,7 @@ def process_and_split_dataset(source_dir, output_dir, max_total_images=1600, tra
             try:
                 with Image.open(img_path) as img:
                     img_resized = img.convert("RGB").resize((image_size, image_size))
-                    img_resized.save(train_path / cls / img_path.name, "JPEG", quality=90)
+                    img_resized.save(train_path / canonical_cls / img_path.name, "JPEG", quality=90)
                     total_processed += 1
             except Exception as e:
                 print(f"Lỗi đọc ảnh {img_path}: {e}")
@@ -92,12 +107,12 @@ def process_and_split_dataset(source_dir, output_dir, max_total_images=1600, tra
             try:
                 with Image.open(img_path) as img:
                     img_resized = img.convert("RGB").resize((image_size, image_size))
-                    img_resized.save(val_path / cls / img_path.name, "JPEG", quality=90)
+                    img_resized.save(val_path / canonical_cls / img_path.name, "JPEG", quality=90)
                     total_processed += 1
             except Exception as e:
                 print(f"Lỗi đọc ảnh {img_path}: {e}")
 
-        print(f"  + Lớp '{cls}': {len(train_imgs)} ảnh train, {len(val_imgs)} ảnh val")
+        print(f"  + Lớp '{canonical_cls}' (nguồn: {cls}): {len(train_imgs)} ảnh train, {len(val_imgs)} ảnh val")
 
     print(f"\n=> TỔNG SỐ ẢNH ĐÃ XỬ LÝ: {total_processed} ảnh (Thỏa mãn ràng buộc <= 2.000 ảnh).")
     return total_processed
@@ -107,6 +122,12 @@ def upload_to_s3(local_dir, bucket_name, project_tag="PlantLeafClassification", 
     """Tải thư mục train/val lên S3 với các Tag quy chuẩn."""
     if not bucket_name:
         print("[INFO] Chưa cung cấp --s3_bucket, bỏ qua bước upload.")
+        return
+
+    try:
+        import boto3
+    except ImportError:
+        print("[LỖI] Cần cài boto3 để upload lên S3: pip install boto3")
         return
 
     s3_client = boto3.client("s3")
@@ -170,6 +191,14 @@ def generate_sample_dataset(source_dir, num_samples_per_class=100):
 if __name__ == "__main__":
     args = parse_args()
     source_p = Path(args.source_dir)
+    # Tự động nhận diện nếu người dùng để ảnh thật trong thư mục ./data
+    if (not source_p.exists() or len(list(source_p.rglob("*.*"))) == 0) and Path("./data").exists():
+        data_images = list(Path("./data").rglob("*.jpg")) + list(Path("./data").rglob("*.jpeg")) + list(Path("./data").rglob("*.png"))
+        if len(data_images) > 0:
+            print(f"[INFO] Tự động phát hiện {len(data_images)} ảnh thật trong thư mục './data'.")
+            source_p = Path("./data")
+            args.source_dir = "./data"
+
     images_found = list(source_p.rglob("*.jpg")) + list(source_p.rglob("*.jpeg")) + list(source_p.rglob("*.png")) if source_p.exists() else []
     if not source_p.exists() or len(images_found) == 0:
         print(f"[THÔNG BÁO] Thư mục '{args.source_dir}' chưa có ảnh hợp lệ nào.")
