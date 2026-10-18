@@ -14,7 +14,7 @@
 | :--- | :--- | :--- |
 | **Chủ đề & Dữ liệu** | **PlantVillage Leaf Disease** (Lá ngô: Khỏe mạnh, Bệnh gỉ sắt, Đốm lá xám - quy mô **~1.500 ảnh**) | Đúng gợi ý đề bài; kích thước $\le$ 2.000 ảnh; dữ liệu sạch, cân bằng, dễ phân loại. |
 | **Mô hình AI** | **MobileNetV2** (PyTorch Transfer Learning với ImageNet weights) | Trọng lượng siêu nhẹ (~3.5M params); huấn luyện trên CPU chỉ mất **6 - 10 phút** cho 8-10 epochs, đạt độ chính xác > 92%. |
-| **Kiến trúc Huấn luyện** | **SageMaker Script Mode** (`PyTorch Estimator` chạy `src/train.py`) | Chuẩn MLOps AWS; máy huấn luyện chạy độc lập và **tự động giải phóng ngay sau khi hoàn thành**, không lo quên tắt máy gây hao hụt credit $100. |
+| **Kiến trúc Huấn luyện** | **SageMaker Script Mode** (`PyTorch Estimator` chạy `src/train.py`) | Chuẩn MLOps AWS; máy huấn luyện chạy độc lập và **tự động giải phóng ngay sau khi hoàn thành**, không lo quên tắt máy gây vượt ngưỡng chi phí tối đa $50. |
 | **Cấu hình Instance** | • Notebook Controller: **`ml.t3.medium`** (~$0.05/h)<br>• Máy train: **`ml.c5.xlarge`** (Compute-Optimized, 4 vCPU, ~$0.204/h) | Tối ưu hóa tính toán ma trận CPU (Intel AVX-512), nằm hoàn toàn trong hạn mức 32 vCPU của Learner Lab. |
 | **Chiến lược Suy luận** | **Batch Transform (Chính)** kết hợp **Transient Endpoint (Phụ cho Demo)** | Batch Transform tự động tắt máy khi dự đoán xong (chi phí tối thiểu). Endpoint dựng tạm 15 phút để test & quay video, sau đó xóa ngay. |
 | **Quyền & Bảo mật** | Dùng trực tiếp **`LabRole`** | Learner Lab không cho phép tạo role mới; cấu hình ARN `arn:aws:iam::<Account_ID>:role/LabRole` đảm bảo không bị `AccessDenied`. |
@@ -54,13 +54,13 @@
 
 ### TUẦN 4: KIỂM THỬ TỔNG THỂ, TỐI ƯU CHI PHÍ, BÁO CÁO & VIDEO DEMO
 * Kiểm thử toàn diện toàn bộ luồng hệ thống E2E; thực thi script teardown dọn dẹp sạch sẽ 100% tài nguyên tính phí (Endpoint Config, Model, S3 bucket/object, dừng Notebook).
-* Truy cập AWS Billing & Cost Management / Cost Explorer, tổng hợp và phân tích chi phí từng dịch vụ đã sử dụng trong suốt 4 tuần (dự kiến < $3 / $100 credit).
+* Truy cập AWS Billing & Cost Management / Cost Explorer, tổng hợp và phân tích chi phí từng dịch vụ đã sử dụng trong suốt 4 tuần (dự kiến < $3, tối ưu vượt trội so với hạn mức tối đa $50).
 * Soạn thảo Báo cáo tổng kết chính thức của đồ án (Final Report PDF): Đặt vấn đề, Sơ đồ kiến trúc, Cấu hình dịch vụ, Huấn luyện Transfer Learning, Đánh giá Confusion Matrix, Kê khai AI.
 * Quay và biên tập Video Demo sản phẩm (thời lượng $\le$ 10 phút): walkthrough kiến trúc, train job, batch transform/endpoint, show billing và chuẩn bị nội dung vấn đáp với GVHD Huỳnh Xuân Phụng.
 
 ---
 
-## III. BẢNG DỰ TOÁN CHI PHÍ TRÊN AWS LEARNER LAB ($100 CREDIT)
+## III. BẢNG DỰ TOÁN CHI PHÍ TRÊN AWS (HẠN MỨC TỐI ĐA $50)
 
 | Tài nguyên / Dịch vụ | Cấu hình & Thời gian sử dụng | Chi phí dự kiến |
 | :--- | :--- | :--- |
@@ -71,4 +71,4 @@
 | **S3 Storage & CloudWatch** | Dataset < 500 MB + CloudWatch Free Tier | ~$0.02 |
 | **TỔNG CỘNG** | **Toàn bộ quá trình thực hiện 4 tuần** | **~$1.08 - $2.50** |
 
-> **Cam kết an toàn:** Tổng chi phí sử dụng chỉ chiếm **< 3%** ngân sách $100 của Learner Lab. Không có nguy cơ cạn credit nếu tuân thủ việc tắt notebook và xóa endpoint.
+> **Cam kết an toàn:** Tổng chi phí sử dụng chỉ chiếm **khoảng ~2 - 5%** so với hạn mức chi phí tối đa $50 của đồ án. Thiết lập CloudWatch Billing Alarm ở các mốc $15 và $30 để kiểm soát tuyệt đối, không có nguy cơ vượt ngưỡng $50 nếu tuân thủ việc tắt notebook và xóa endpoint.

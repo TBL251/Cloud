@@ -18,7 +18,7 @@
 | :---: | :--- | :---: | :---: |
 | 1 | Khảo sát dịch vụ AWS (SageMaker, S3, IAM LabRole), thuật toán Transfer Learning và các ràng buộc Learner Lab | 2.0 giờ | Hoàn thành |
 | 2 | Xác định chủ đề, bộ nhãn lá cây ngô bệnh/khỏe (PlantVillage) và thông số kỹ thuật (input 224x224, $\le$ 2.000 ảnh) | 2.0 giờ | Hoàn thành |
-| 3 | Lập kế hoạch chi tiết 4 tuần tối ưu chi phí (< 3$ / 100$ credit) và kịch bản video demo $\le$ 10 phút | 2.5 giờ | Hoàn thành |
+| 3 | Lập kế hoạch chi tiết 4 tuần tối ưu chi phí (< 3$, đảm bảo trong hạn mức tối đa 50$) và kịch bản video demo $\le$ 10 phút | 2.5 giờ | Hoàn thành |
 | 4 | Xây dựng cấu trúc thư mục chuẩn đồ án MLOps, khởi tạo Git và đẩy mã nguồn lên GitHub Public | 2.0 giờ | Hoàn thành |
 
 * **Tổng thời gian thực hiện Tuần 1:** **8.5 giờ** (Đạt yêu cầu quy định $\ge$ 8 giờ/tuần).
