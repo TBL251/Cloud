@@ -45,7 +45,11 @@ CLASS_NAME_MAP = {
     "Corn___Northern_Leaf_Blight": "Corn___Northern_Leaf_Blight",
     "Corn___Common_Rust": "Corn___Common_Rust",
     "Corn___Gray_Leaf_Spot": "Corn___Gray_Leaf_Spot",
-    "Corn___Healthy": "Corn___Healthy"
+    "Corn___Healthy": "Corn___Healthy",
+    "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": "Corn___Gray_Leaf_Spot",
+    "Corn_(maize)___Common_rust_": "Corn___Common_Rust",
+    "Corn_(maize)___Northern_Leaf_Blight": "Corn___Northern_Leaf_Blight",
+    "Corn_(maize)___healthy": "Corn___Healthy"
 }
 
 
