@@ -1,0 +1,12 @@
+{
+  "classes": [
+    "Corn___Healthy",
+    "Corn___Common_Rust",
+    "Corn___Gray_Leaf_Spot",
+    "Corn___Northern_Leaf_Blight"
+  ],
+  "description": "PlantVillage Corn Leaf Disease Dataset (Subset <= 2000 images)",
+  "input_size": [224, 224],
+  "mean": [0.485, 0.456, 0.406],
+  "std": [0.229, 0.224, 0.225]
+}
