@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Large datasets & office artifacts
+raw_dataset/
+processed_dataset/
+*.docx
+*.zip
+*.tar.gz
