@@ -21,7 +21,7 @@
 | 3 | Cấu hình SageMaker PyTorch Estimator (Script Mode) và huấn luyện Transfer Learning MobileNetV2 trên CPU `ml.c5.xlarge` | 2.5 giờ | Hoàn thành |
 | 4 | Thu thập kết quả huấn luyện (Validation Acc: 90%, 736s), xác nhận `model.tar.gz` trên S3 và dừng tài nguyên (Stop Notebook) | 2.0 giờ | Hoàn thành |
 
-* **Tổng thời gian thực hiện Tuần 2:** **8.5 giờ** (Đạt yêu cầu quy định $\ge$ 8 giờ/tuần).
+* **Tổng thời gian thực hiện Tuần 2:** **8.5 giờ** (Đạt yêu cầu quy định >= 8 giờ/tuần).
 
 ---
 
@@ -32,7 +32,7 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
 ### 1. Chuẩn bị Dữ liệu & Đồng bộ lên Amazon S3 (Notebook 01)
 * Khởi tạo S3 Bucket `sagemaker-plant-leaf-909005169225` và gắn thẻ Tag định danh bắt buộc: `Project=PlantLeafClassification`, `Owner=LeBaTam`.
 * Tiền xử lý, chuẩn hóa kích thước ảnh về chuẩn `224x224`, chia tập dữ liệu 80% Train (1.280 ảnh) và 20% Val (320 ảnh) cho 4 lớp bệnh lá ngô thật từ tập dữ liệu học thuật PlantVillage (`Corn___Northern_Leaf_Blight`, `Corn___Healthy`, `Corn___Gray_Leaf_Spot`, `Corn___Common_Rust`).
-* Upload toàn bộ đúng 1.600 ảnh thật lên S3, tuân thủ nghiêm ngặt giới hạn $\le$ 2.000 ảnh của đề bài.
+* Upload toàn bộ đúng 1.600 ảnh thật lên S3, tuân thủ nghiêm ngặt giới hạn <= 2.000 ảnh của đề bài.
   * Link file notebook: [notebooks/01_data_preparation.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/01_data_preparation.ipynb)
   * Link file script: [src/prepare_data.py](https://github.com/TBL251/Cloud/blob/main/src/prepare_data.py)
   * Link ảnh minh chứng tạo S3 Bucket: [images/notebook01/Screenshot 2026-10-18 235104.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235104.png)
@@ -82,8 +82,8 @@ Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
 * **Chi phí Training Job 1 (MobileNetV2 - 736 giây):** **~$0.035 USD**.
 * **Chi phí Training Job 2 (ResNet-18 - 551 giây):** **~$0.026 USD**.
-* **Lưu trữ S3:** 1.600 ảnh thật và 2 file model artifacts (`model.tar.gz`) $\rightarrow$ Chi phí: **~$0.001 USD**.
-* **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành $\rightarrow$ Chi phí: **~$0.040 USD**.
+* **Lưu trữ S3:** 1.600 ảnh thật và 2 file model artifacts (`model.tar.gz`) -> Chi phí: **~$0.001 USD**.
+* **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành -> Chi phí: **~$0.040 USD**.
 * **Biện pháp an toàn chi phí:** Đã thực hiện lệnh **Stop** Notebook Instance ngay sau buổi thực hành để ngắt hoàn toàn chi phí giờ chạy máy ảo.
 * **Tổng chi phí thực tế Tuần 2 (cho cả 2 Training Jobs):** **~$0.102 USD** (~2.550 VNĐ, chỉ chiếm **3.4%** mức ngân sách 3$/tuần do GVHD quy định, cách rất xa ngưỡng trần 50$ của đề bài).
 * **Kế hoạch đối chiếu Billing:** Sinh viên đã lưu vết số liệu và cam kết chụp screenshot toàn diện trang AWS Billing vào cuối Tuần 4 để đối chiếu theo đúng nhắc nhở của thầy.
