@@ -1,0 +1,4 @@
+- Kiểm thử toàn diện toàn bộ luồng hệ thống E2E và chạy script dọn dẹp sạch tài nguyên
+- Trích xuất dữ liệu AWS Billing / Cost Explorer và lập báo cáo chi phí sử dụng
+- Soạn thảo Báo cáo tổng kết chính thức của đồ án (Final Report)
+- Quay và biên tập Video Demo sản phẩm (thời lượng dưới 10 phút)

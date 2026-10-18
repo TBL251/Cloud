@@ -1,0 +1,4 @@
+- Tìm hiểu, nghiên cứu về các công cụ thuật toán chuẩn bị thực hiện
+- Xác định chủ đề thực hiện
+- Phân chia công việc cụ thể
+- Tạo cấu trúc đồ án

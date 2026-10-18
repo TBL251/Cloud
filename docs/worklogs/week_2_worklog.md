@@ -1,0 +1,6 @@
+- Thiết kế kiến trúc hệ thống và vẽ sơ đồ kiến trúc tổng thể
+- Tạo S3 Bucket, cấu hình gắn thẻ Tag (Project, Owner)
+- Thu thập tập dữ liệu lá cây, lọc chuẩn hóa (dưới 2.000 ảnh) và upload lên S3
+- Khởi tạo SageMaker Notebook Instance, thiết lập môi trường PyTorch
+- Viết mã nguồn huấn luyện Transfer Learning (MobileNetV2) theo chuẩn Script Mode
+- Chạy SageMaker Training Job trên CPU instance và lưu model artifact trên S3

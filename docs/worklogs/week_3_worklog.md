@@ -1,0 +1,5 @@
+- Cấu hình CloudWatch Logs, Metrics giám sát CPU/RAM và thiết lập CloudWatch Billing Alarm
+- Triển khai SageMaker Batch Transform Job dự đoán hàng loạt cho tập ảnh kiểm thử
+- Đánh giá mô hình: tính toán Accuracy và xuất biểu đồ Confusion Matrix
+- Viết custom handler inference.py, deploy Real-time Endpoint thử nghiệm và thực hiện xóa Endpoint
+- Xây dựng script tự động hóa kiểm tra và dọn dẹp tài nguyên (teardown)
