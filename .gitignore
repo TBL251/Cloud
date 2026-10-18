@@ -12,10 +12,6 @@ Thumbs.db
 # Large datasets & office artifacts
 raw_dataset/
 processed_dataset/
-data/Blight/
-data/Common_Rust/
-data/Gray_Leaf_Spot/
-data/Healthy/
 *.docx
 *.txt
 *.zip
