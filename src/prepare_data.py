@@ -169,8 +169,10 @@ def generate_sample_dataset(source_dir, num_samples_per_class=100):
 
 if __name__ == "__main__":
     args = parse_args()
-    if not os.path.exists(args.source_dir) or not any(Path(args.source_dir).iterdir()):
-        print(f"[THÔNG BÁO] Thư mục '{args.source_dir}' chưa có dữ liệu.")
+    source_p = Path(args.source_dir)
+    images_found = list(source_p.rglob("*.jpg")) + list(source_p.rglob("*.jpeg")) + list(source_p.rglob("*.png")) if source_p.exists() else []
+    if not source_p.exists() or len(images_found) == 0:
+        print(f"[THÔNG BÁO] Thư mục '{args.source_dir}' chưa có ảnh hợp lệ nào.")
         generate_sample_dataset(args.source_dir, num_samples_per_class=100)
 
     process_and_split_dataset(args.source_dir, args.output_dir, args.max_total_images, args.train_ratio, args.image_size)
