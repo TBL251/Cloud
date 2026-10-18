@@ -18,8 +18,11 @@ if hasattr(sys.stdout, "reconfigure"):
 try:
     from PIL import Image
     import boto3
-except ImportError:
-    print("Vui lòng cài đặt: pip install pillow boto3")
+    import numpy as np
+except ImportError as e:
+    print(f"[LỖI] Thiếu thư viện: {e}")
+    print("Vui lòng chạy: pip install pillow boto3 numpy")
+    sys.exit(1)
 
 
 def parse_args():
