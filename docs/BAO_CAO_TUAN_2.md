@@ -77,7 +77,22 @@ Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối 
 
 ---
 
-## 4. BÁO CÁO TÀI NGUYÊN & CHI PHÍ THỰC TẾ TRÊN AWS
+## 4. LỊCH SỬ COMMIT TRÊN GITHUB PHẢN ÁNH TIẾN ĐỘ CÔNG VIỆC (YÊU CẦU 6)
+
+Sinh viên thực hiện phân chia công việc rõ ràng, mỗi hạng mục hoàn thành đều được commit và đẩy lên GitHub Public:
+
+* `them bo du lieu 1600 anh that plantvillage vao thu muc data`  
+  Link commit: https://github.com/TBL251/Cloud/commit/31ca6ae0e7bd68dedea42fdfc1bf53d1e681cb1d
+* `cap nhat cell 4 notebook 01 tu dong tai plantvillage va xu ly anh that`  
+  Link commit: https://github.com/TBL251/Cloud/commit/42d892e1ccf88dcfd9f6d2f94774474264b2a414
+* `bo sung cell thuc nghiem doi sanh resnet18 vao notebook 02`  
+  Link commit: https://github.com/TBL251/Cloud/commit/23bc079c7e8df68320e2ecdb6d2032d53a460beb
+* `bo sung so sanh mobilenetv2 vs resnet18 va ke hoach tuan 3 theo nhan xet cua gvhd`  
+  Link commit: https://github.com/TBL251/Cloud/commit/87a1298b12c834a4ddf5c43b24ea0f0ee1755aa7
+
+---
+
+## 5. BÁO CÁO TÀI NGUYÊN & CHI PHÍ THỰC TẾ TRÊN AWS
 
 Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3$** và **tổng đồ án dưới 50$**:
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
@@ -91,14 +106,14 @@ Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3
 
 ---
 
-## 5. KẾ HOẠCH CÔNG VIỆC TUẦN 3 TIẾP THEO
+## 6. KẾ HOẠCH CÔNG VIỆC TUẦN 3 TIẾP THEO
 
 Toàn bộ 5 đầu mục công việc cụ thể của Tuần 3 đã được lập sẵn trong repository:
 * Link file Worklog Tuần 3: [docs/worklogs/week_3_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_3_worklog.md)
 
 ---
 
-## 6. KHAI BÁO SỬ DỤNG AI (AI DECLARATION) & MINH CHỨNG
+## 7. KHAI BÁO SỬ DỤNG AI (AI DECLARATION) & MINH CHỨNG
 
 Tuân thủ nghiêm ngặt quy chế đề bài về tính minh bạch khi có AI hỗ trợ:
 
