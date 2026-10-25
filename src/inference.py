@@ -159,4 +159,4 @@ def output_fn(prediction, accept):
 
     # Nếu chỉ có 1 ảnh thì trả về object, nếu nhiều ảnh thì trả về list
     response_payload = results[0] if len(results) == 1 else results
-    return json.dumps(response_payload, ensure_ascii=False), "application/json"
+    return json.dumps(response_payload, ensure_ascii=False)
