@@ -16,3 +16,5 @@ processed_dataset/
 *.txt
 *.zip
 *.tar.gz
+*.mp4
+*.mov
