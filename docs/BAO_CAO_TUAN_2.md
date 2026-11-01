@@ -21,18 +21,18 @@
 | 3 | Cấu hình SageMaker PyTorch Estimator (Script Mode) và huấn luyện Transfer Learning MobileNetV2 trên CPU `ml.c5.xlarge` | 2.5 giờ | Hoàn thành |
 | 4 | Thu thập kết quả huấn luyện (Validation Acc: 90%, 736s), xác nhận `model.tar.gz` trên S3 và dừng tài nguyên (Stop Notebook) | 2.0 giờ | Hoàn thành |
 
-* **Tổng thời gian thực hiện Tuần 2:** **8.5 giờ** (Đạt yêu cầu quy định >= 8 giờ/tuần).
+* **Tổng thời gian tuần 2:** **8.5 giờ**, em chia đều cho việc chuẩn bị dữ liệu, cấu hình máy ảo và chạy thử nghiệm 2 model.
 
 ---
 
 ## 3. NỘI DUNG CÔNG VIỆC ĐÃ HOÀN THÀNH KÈM LINK FILE VÀ MINH CHỨNG TRÊN GITHUB
 
-Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab thật (Account ID: `909005169225`, Region `us-east-1`) đã hoàn thành xuất sắc với tập dữ liệu ảnh thật 100%:
+Các công việc tuần 2 được thực hiện trực tiếp trên tài khoản AWS Academy Learner Lab (Account ID: `909005169225`, Region `us-east-1`):
 
 ### 1. Chuẩn bị Dữ liệu & Đồng bộ lên Amazon S3 (Notebook 01)
-* Khởi tạo S3 Bucket `sagemaker-plant-leaf-909005169225` và gắn thẻ Tag định danh bắt buộc: `Project=PlantLeafClassification`, `Owner=LeBaTam`.
-* Tiền xử lý, chuẩn hóa kích thước ảnh về chuẩn `224x224`, chia tập dữ liệu 80% Train (1.280 ảnh) và 20% Val (320 ảnh) cho 4 lớp bệnh lá ngô thật từ tập dữ liệu học thuật PlantVillage (`Corn___Northern_Leaf_Blight`, `Corn___Healthy`, `Corn___Gray_Leaf_Spot`, `Corn___Common_Rust`).
-* Upload toàn bộ đúng 1.600 ảnh thật lên S3, tuân thủ nghiêm ngặt giới hạn <= 2.000 ảnh của đề bài.
+* Tạo S3 Bucket `sagemaker-plant-leaf-909005169225` và gắn 2 thẻ Tag theo quy định: `Project=PlantLeafClassification`, `Owner=LeBaTam`.
+* Tiền xử lý ảnh về kích thước chuẩn `224x224`, chia tập 80% Train (1.280 ảnh) và 20% Val (320 ảnh) cho 4 lớp bệnh lá ngô từ tập PlantVillage (`Corn___Northern_Leaf_Blight`, `Corn___Healthy`, `Corn___Gray_Leaf_Spot`, `Corn___Common_Rust`).
+* Upload 1.600 ảnh thật lên S3 (400 ảnh mỗi lớp, nằm trong giới hạn 2.000 ảnh của đề bài).
   * Link file notebook: [notebooks/01_data_preparation.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/01_data_preparation.ipynb)
   * Link file script: [src/prepare_data.py](https://github.com/TBL251/Cloud/blob/main/src/prepare_data.py)
   * Link ảnh minh chứng tạo S3 Bucket: [images/notebook01/Screenshot 2026-10-18 235104.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235104.png)
@@ -41,15 +41,15 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
   * Link ảnh minh chứng danh sách đối tượng mẫu trên S3: [images/notebook01/Screenshot 2026-10-18 235137.png](https://github.com/TBL251/Cloud/blob/main/images/notebook01/Screenshot%202026-10-18%20235137.png)
 
 ### 2. Huấn luyện Mô hình Transfer Learning trên SageMaker (Notebook 02)
-* Sử dụng SageMaker Script Mode với PyTorch Estimator, nạp mã nguồn huấn luyện `train.py` từ repo GitHub.
-* Khởi tạo máy chủ huấn luyện độc lập trên CPU instance `ml.c5.xlarge` (4 vCPU, 8 GiB RAM), không dùng GPU nhằm tuân thủ hạn ngạch của AWS Learner Lab.
+* Dùng SageMaker Script Mode với PyTorch Estimator, nạp mã nguồn `train.py` từ GitHub repo.
+* Chạy training job trên CPU instance `ml.c5.xlarge` (4 vCPU, 8 GiB RAM), không dùng GPU để phù hợp quota của tài khoản Learner Lab.
 * Mã Training Job: `pytorch-training-2026-10-18-16-35-53-425`.
-* Huấn luyện mô hình Transfer Learning **MobileNetV2** qua 8 epochs trên 1.600 ảnh thật. Tiến trình học diễn ra tự nhiên:
+* Huấn luyện mô hình Transfer Learning **MobileNetV2** qua 8 epochs trên 1.600 ảnh thật:
   * Epoch 1: Train Acc 65.44% | Val Acc 84.25%
   * Epoch 4: Train Acc 86.81% | Val Acc 88.00%
   * Epoch 8: Train Acc 88.06% | Val Acc 90.00%
-  * **Best Validation Accuracy đạt 90.00% (0.9000)**.
-* SageMaker Training Job tự động hoàn tất và đóng gói Model Artifact thành `model.tar.gz` lưu trữ an toàn trên S3.
+  * **Best Validation Accuracy đạt 90.00% (0.9000)** ở epoch 8.
+* Khi job kết thúc, SageMaker tự động đóng gói file `model.tar.gz` lưu về S3.
   * Link file notebook: [notebooks/02_sagemaker_training.ipynb](https://github.com/TBL251/Cloud/blob/main/notebooks/02_sagemaker_training.ipynb)
   * Link file script train: [src/train.py](https://github.com/TBL251/Cloud/blob/main/src/train.py)
   * Link ảnh minh chứng cấu hình PyTorch Estimator: [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235156.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235156.png)
@@ -59,7 +59,7 @@ Toàn bộ quá trình thực thi trên tài khoản AWS Academy Learner Lab th�
   * Link ảnh minh chứng Model Artifact `model.tar.gz` trên S3: [images/notebook02/MobileNetV2/Screenshot 2026-10-18 235306.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/MobileNetV2/Screenshot%202026-10-18%20235306.png)
 
 ### 3. Khảo sát & So sánh Thực nghiệm: MobileNetV2 vs ResNet-18 (Dữ liệu Huấn luyện Thật trên SageMaker)
-Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối ưu nhất trên Cloud theo đúng gợi ý của GVHD, sinh viên đã kích hoạt cả 2 Training Job độc lập trên cùng cấu hình CPU instance `ml.c5.xlarge`, cùng tập 1.600 ảnh thật và 8 Epochs:
+Theo gợi ý của GVHD về việc đối sánh model, em chạy thêm một Training Job với ResNet-18 trên cùng cấu hình máy (`ml.c5.xlarge`) và cùng tập 1.600 ảnh (8 epochs) để so sánh thực tế với MobileNetV2:
 * **Mã Training Job MobileNetV2:** `pytorch-training-2026-10-18-16-35-53-425`
 * **Mã Training Job ResNet-18:** `pytorch-training-2026-10-18-18-21-42-644`
 * **Link ảnh minh chứng Training Job ResNet-18 (551 giây tính phí, Best Val Acc 87%):** [images/notebook02/ResNet-18/Screenshot 2026-10-19 013942.png](https://github.com/TBL251/Cloud/blob/main/images/notebook02/ResNet-18/Screenshot%202026-10-19%20013942.png)
@@ -67,19 +67,22 @@ Nhằm giải thích thuyết phục cho việc lựa chọn kiến trúc tối 
 | Tiêu chí so sánh | MobileNetV2 (Lựa chọn chính) | ResNet-18 (Đối sánh thực tế) | Ý nghĩa trên Điện toán đám mây |
 | :--- | :---: | :---: | :--- |
 | **Số lượng tham số (Parameters)** | **~3.5 Triệu** | ~11.7 Triệu | MobileNetV2 nhẹ hơn gấp **3.3 lần**, chiếm ít RAM máy ảo |
-| **Dung lượng file Model Artifact** | **~14.2 MB** | **44.7 MB** | MobileNetV2 tiết kiệm **68% dung lượng lưu trữ S3** và truyền tải mạng |
-| **Thời gian tính phí (Billable seconds)**| **736 giây** | **551 giây** | Cả 2 job đều hoàn tất nhanh chóng dưới 15 phút trên CPU |
-| **Chi phí Training Job thực tế** | **~$0.035 USD** | **~$0.026 USD** | Cực kỳ tiết kiệm, bảo đảm an toàn ngân sách tuần < 3$ |
-| **Độ ổn định huấn luyện qua 8 Epochs** | **Tăng đều đặn:** 84.25% -> 90.00% | **Có hiện tượng Overfit:** Val Acc đạt đỉnh 87.00% (Epoch 3) rồi giảm còn 78.50% (Epoch 8) do số tham số quá lớn |
-| **Best Validation Accuracy (1.600 ảnh)** | **90.00% (0.9000)** | **87.00% (0.8700)** | **MobileNetV2 vượt trội hơn +3.00%** độ chính xác trên tập dữ liệu lá cây |
+| **Dung lượng file Model Artifact** | **~14.2 MB** | **44.7 MB** | Tiết kiệm 68% dung lượng lưu trữ S3 và thời gian tải container |
+| **Thời gian tính phí (Billable seconds)**| **736 giây** | **551 giây** | Cả 2 job đều chạy dưới 15 phút trên CPU |
+| **Chi phí Training Job thực tế** | **~$0.035 USD** | **~$0.026 USD** | Đều duy trì tốt ngân sách tuần < 3$ |
+| **Độ ổn định huấn luyện qua 8 Epochs** | Tăng đều: 84.25% -> 90.00% | Có hiện tượng Overfit: Val Acc đạt đỉnh 87.00% (Epoch 3) rồi giảm còn 78.50% (Epoch 8) do số tham số lớn |
+| **Best Validation Accuracy (1.600 ảnh)** | **90.00% (0.9000)** | **87.00% (0.8700)** | MobileNetV2 cao hơn 3.00% trên tập dữ liệu này |
 
-* **Kết luận lựa chọn kỹ thuật:** Kết quả thực nghiệm thật 100% trên AWS SageMaker chứng minh **MobileNetV2 là sự lựa chọn tối ưu toàn diện nhất**: vừa cho độ chính xác cao hơn (90% so với 87%), vừa chống hiện tượng quá khớp (overfitting) tốt hơn trên tập ảnh lá cây, đồng thời dung lượng mô hình chỉ bằng 1/3 (14 MB so với 44.7 MB), giúp giảm tối đa độ trễ nạp mô hình khi triển khai Endpoint thời gian thực ở Tuần 3.
+* **Nhận xét và lý do chọn model:** Từ kết quả chạy thực nghiệm của 2 job, em chọn **MobileNetV2** làm mô hình chính cho đồ án vì 3 điểm thực tế:
+  1. **Độ chính xác:** MobileNetV2 đạt 90% ở epoch 8, trong khi ResNet-18 đạt 87% ở epoch 3 rồi giảm dần xuống 78.5% ở epoch 8 do bị overfit trên tập dữ liệu này.
+  2. **Kích thước file mô hình:** MobileNetV2 chỉ 14.2 MB (nhẹ hơn 3 lần so với 44.7 MB của ResNet-18), giúp việc tải mô hình lên S3 và nạp vào container khi dựng Endpoint ở Tuần 3 nhanh hơn.
+  3. **Chi phí:** Cả hai job chạy trên CPU đều chỉ tốn khoảng $0.026 - $0.035 USD, nằm an toàn trong ngân sách tuần.
 
 ---
 
 ## 4. LỊCH SỬ COMMIT TRÊN GITHUB PHẢN ÁNH TIẾN ĐỘ CÔNG VIỆC (YÊU CẦU 6)
 
-Sinh viên thực hiện phân chia công việc rõ ràng, mỗi hạng mục hoàn thành đều được commit và đẩy lên GitHub Public:
+Em chia nhỏ công việc và commit đều đặn lên GitHub sau mỗi phần việc hoàn thành:
 
 * `them bo du lieu 1600 anh that plantvillage vao thu muc data`  
   Link commit: https://github.com/TBL251/Cloud/commit/31ca6ae0e7bd68dedea42fdfc1bf53d1e681cb1d
@@ -94,28 +97,28 @@ Sinh viên thực hiện phân chia công việc rõ ràng, mỗi hạng mục h
 
 ## 5. BÁO CÁO TÀI NGUYÊN & CHI PHÍ THỰC TẾ TRÊN AWS
 
-Tuân thủ nghiêm ngặt yêu cầu của GVHD: **ngân sách tuần dưới 3$** và **tổng đồ án dưới 50$**:
+Theo dõi chi phí thực tế trên AWS (mục tiêu ngân sách dưới 3$/tuần, tổng đồ án dưới 50$):
 * **Account ID thực tế:** `909005169225` (Region `us-east-1`).
 * **Chi phí Training Job 1 (MobileNetV2 - 736 giây):** **~$0.035 USD**.
 * **Chi phí Training Job 2 (ResNet-18 - 551 giây):** **~$0.026 USD**.
 * **Lưu trữ S3:** 1.600 ảnh thật và 2 file model artifacts (`model.tar.gz`) -> Chi phí: **~$0.001 USD**.
 * **SageMaker Notebook:** Chạy trên `ml.t3.medium` trong quá trình thực hành -> Chi phí: **~$0.040 USD**.
-* **Biện pháp an toàn chi phí:** Đã thực hiện lệnh **Stop** Notebook Instance ngay sau buổi thực hành để ngắt hoàn toàn chi phí giờ chạy máy ảo.
-* **Tổng chi phí thực tế Tuần 2 (cho cả 2 Training Jobs):** **~$0.102 USD** (~2.550 VNĐ, chỉ chiếm **3.4%** mức ngân sách 3$/tuần do GVHD quy định, cách rất xa ngưỡng trần 50$ của đề bài).
-* **Kế hoạch đối chiếu Billing:** Sinh viên đã lưu vết số liệu và cam kết chụp screenshot toàn diện trang AWS Billing vào cuối Tuần 4 để đối chiếu theo đúng nhắc nhở của thầy.
+* **Biện pháp tránh phát sinh chi phí:** Sau khi chạy xong notebook, em bấm **Stop** Notebook Instance ngay để ngắt tiền giờ chạy máy ảo khi không dùng.
+* **Tổng chi phí thực tế Tuần 2:** **~$0.102 USD** (~2.550 VNĐ cho cả 2 training job và notebook), nằm trong hạn mức 3$/tuần do GVHD quy định.
+* **Kế hoạch đối chiếu Billing:** Em đã lưu lại các mốc chi phí này và cuối tuần 4 sẽ chụp ảnh màn hình trang AWS Billing để đối chiếu như thầy đã nhắc.
 
 ---
 
 ## 6. KẾ HOẠCH CÔNG VIỆC TUẦN 3 TIẾP THEO
 
-Toàn bộ 5 đầu mục công việc cụ thể của Tuần 3 đã được lập sẵn trong repository:
+Kế hoạch 5 đầu việc cho tuần 3 em đã ghi chi tiết trong file worklog trên repo:
 * Link file Worklog Tuần 3: [docs/worklogs/week_3_worklog.md](https://github.com/TBL251/Cloud/blob/main/docs/worklogs/week_3_worklog.md)
 
 ---
 
 ## 7. KHAI BÁO SỬ DỤNG AI (AI DECLARATION) & MINH CHỨNG
 
-Tuân thủ nghiêm ngặt quy chế đề bài về tính minh bạch khi có AI hỗ trợ:
+Tuần này em có dùng AI để hỏi nhanh cú pháp code, chi tiết phần AI gợi ý và phần em tự sửa lại như sau:
 
 **PROMPT**
 > Tôi đang làm đồ án môn Điện toán đám mây triển khai huấn luyện mô hình Transfer Learning phân loại bệnh lá cây trên AWS SageMaker (Region us-east-1, tài khoản Learner Lab). Hãy gợi ý cú pháp khởi tạo PyTorch Estimator trong SageMaker Python SDK v2 chạy trên CPU ml.c5.xlarge, cách đóng gói mã nguồn huấn luyện train.py (Script Mode) và truyền các kênh dữ liệu S3 train, val.

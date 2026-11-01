@@ -1,4 +1,19 @@
-- Kiểm thử toàn diện toàn bộ luồng hệ thống E2E và chạy script dọn dẹp sạch tài nguyên
-- Trích xuất dữ liệu AWS Billing / Cost Explorer và lập báo cáo chi phí sử dụng
-- Soạn thảo Báo cáo tổng kết chính thức của đồ án (Final Report)
-- Quay và biên tập Video Demo sản phẩm (thời lượng dưới 10 phút)
+# NHẬT KÝ CÔNG VIỆC TUẦN 4 (WEEK 4 WORKLOG)
+**Môn học:** Cloud - Đợt 1 - 2026-2027  
+**Sinh viên thực hiện:** Lê Bá Tâm - MSSV: 24110055  
+**Hạn mức thời gian:** 8.5 giờ  
+
+---
+
+### Danh mục công việc hoàn thành trong tuần:
+1. **Đối soát & Phân tích chi phí AWS Academy:**
+   - Kiểm tra số dư và chi tiêu thực tế trên Dashboard Learner Lab: Ghi nhận **`Used $18.1 of $50`** (ngân sách còn dư $31.90 USD).
+   - Đánh giá hiệu quả kinh tế và mức độ tuân thủ hạn mức ngân sách của toàn bộ dự án.
+2. **Xây dựng Bảng đối chuẩn kỹ thuật (Benchmarking):**
+   - So sánh toàn diện Batch Transform (`ml.c5.xlarge`, ~$0.013/lượt, Acc 90%) và Real-time Endpoint (`ml.m5.large`, Latency 212.39 ms, ~$65/tháng nếu bật 24/7).
+   - Phân tích kịch bản ứng dụng nông nghiệp thực tế: Quét ảnh flycam theo lô (Batch) vs Ứng dụng di động chẩn đoán tại ruộng (Real-time).
+3. **Quy trình thu dọn tài nguyên (Final Teardown):**
+   - Chạy script `scripts/teardown.py` xác nhận 0 Endpoint, 0 Config, 0 Model.
+   - Dừng Notebook Instance `ml.t3.medium` để đóng băng hệ thống an toàn.
+4. **Soạn thảo và chốt Báo cáo Tiến độ Tuần 4 (`docs/BAO_CAO_TUAN_4.md`):**
+   - Hoàn thành đầy đủ 5 mục theo nhận xét của GVHD Huỳnh Xuân Phụng, văn phong kỹ sư mộc mạc và gắn link minh chứng đầy đủ.
