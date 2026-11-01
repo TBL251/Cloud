@@ -5,10 +5,12 @@
 
 ---
 
-## 1. THÔNG TIN THỰC HIỆN & LINK GITHUB PUBLIC
+## 1. THÔNG TIN THỰC HIỆN, LINK GITHUB & LINK VIDEO DEMO
 * **Sinh viên thực hiện:** Lê Bá Tâm - MSSV: 24110055 - Lớp: CLCO332779_05UTExMC  
 * **Link GitHub Repository (Public):** https://github.com/TBL251/Cloud  
 *(Repository ở chế độ Public để GVHD truy cập và kiểm chứng mã nguồn trực tiếp).*
+* **Link Video Demo Đồ Án (Thời lượng ~9 phút):** [https://drive.google.com/file/d/1dhWreqLEgqtqwZTe-_w1gkN2HBoCfJsX/view?usp=sharing](https://drive.google.com/file/d/1dhWreqLEgqtqwZTe-_w1gkN2HBoCfJsX/view?usp=sharing)  
+*(Video demo chi tiết toàn bộ quy trình thực nghiệm trên AWS SageMaker từ code, log huấn luyện, console đến dọn dẹp tài nguyên).*
 
 ---
 
@@ -16,12 +18,13 @@
 
 | STT | Hạng mục công việc Tuần 4 | Thời lượng | Trạng thái |
 | :---: | :--- | :---: | :---: |
-| 1 | Đối soát và phân tích ngân sách thực tế trên Dashboard AWS Academy Learner Lab ($18.1 / $50) | 2.0 giờ | Hoàn thành |
-| 2 | Xây dựng bảng đối chuẩn kỹ thuật (Benchmarking) so sánh toàn diện Batch Transform vs Real-time Endpoint về chi phí, độ trễ, băng thông | 2.5 giờ | Hoàn thành |
-| 3 | Thực thi quy trình kiểm tra và dọn dẹp tài nguyên lần cuối (`scripts/teardown.py`), xác nhận trạng thái 0 tài nguyên tính phí | 1.5 giờ | Hoàn thành |
-| 4 | Tổng hợp toàn bộ mã nguồn, cấu trúc thư mục đồ án và hoàn thiện Báo cáo Tiến độ Tuần 4 | 2.5 giờ | Hoàn thành |
+| 1 | Đối soát và phân tích ngân sách thực tế trên Dashboard AWS Academy Learner Lab ($18.1 / $50) | 1.5 giờ | Hoàn thành |
+| 2 | Xây dựng bảng đối chuẩn kỹ thuật (Benchmarking) so sánh toàn diện Batch Transform vs Real-time Endpoint | 2.0 giờ | Hoàn thành |
+| 3 | Thực thi quy trình kiểm tra và dọn dẹp tài nguyên lần cuối (`scripts/teardown.py`), xác nhận trạng thái 0 tài nguyên tính phí | 1.0 giờ | Hoàn thành |
+| 4 | Xây dựng kịch bản, quay và biên tập Video Demo thực nghiệm toàn bộ đồ án MLOps trên AWS SageMaker | 2.5 giờ | Hoàn thành |
+| 5 | Tổng hợp toàn bộ mã nguồn, cấu trúc thư mục đồ án và hoàn thiện Báo cáo Tiến độ Tuần 4 | 2.0 giờ | Hoàn thành |
 
-* **Tổng thời gian tuần 4:** **8.5 giờ**, em tập trung vào công tác nghiệm thu hệ thống, phân tích chi phí, đối chuẩn kỹ thuật và đóng gói đồ án an toàn.
+* **Tổng thời gian tuần 4:** **9.0 giờ**, em tập trung vào công tác nghiệm thu hệ thống, phân tích chi phí, đối chuẩn kỹ thuật, quay video demo thực nghiệm và đóng gói đồ án an toàn.
 
 ---
 
@@ -53,7 +56,19 @@ Dựa trên các số liệu đo lường thực tế từ Tuần 3 (Notebook 03
 
 ---
 
-### 3. Quy Trình Thu Dọn Tài Nguyên Toàn Diện (Final Teardown)
+### 3. Video Demo Thực Nghiệm Toàn Diện Đồ Án Trên AWS SageMaker
+Em đã thực hiện ghi hình video demo thực tế với thời lượng ~9 phút, trình bày chi tiết và rõ ràng toàn bộ các cấu phần của dự án:
+1. **Giới thiệu đề tài & cấu trúc mã nguồn:** Trình bày mục tiêu phân loại 4 trạng thái lá bắp (Healthy, Common Rust, Gray Leaf Spot, Northern Leaf Blight) và cấu trúc thư mục trên GitHub repo.
+2. **Dữ liệu & Quá trình huấn luyện Transfer Learning:** Minh chứng tập dữ liệu 1.600 ảnh trên S3; giải thích kiến trúc MobileNetV2 (~3.5M params); thuyết minh log huấn luyện 8 Epochs trên máy ảo `ml.c5.xlarge` (736 giây tính phí, Best Val Acc đạt 90.00%) và model artifact `model.tar.gz` lưu trên S3.
+3. **Đánh giá hàng loạt (Batch Transform) & Ma trận nhầm lẫn:** Trình bày kết quả chạy Batch Transform trên 400 ảnh test độc lập (đạt Accuracy 90.00%, Recall lá khỏe đạt 100/100 tuyệt đối); phân tích biểu đồ nhiệt Confusion Matrix và giải thích lý do nhầm lẫn khách quan giữa vết hoại tử của Gray Leaf Spot và Northern Leaf Blight.
+4. **Triển khai Transient Endpoint & Kiểm thử thời gian thực:** Trình bày cách thức hoạt động của bộ phục vụ suy luận `src/inference.py`, kết quả gửi ảnh test qua REST API và đo đạc độ trễ End-to-End thực tế là **`212.39 ms`**.
+5. **Quy trình dọn dẹp tài nguyên (Teardown) & Quản lý ngân sách:** Trình bày thao tác hủy endpoint tự động, thực thi script `scripts/teardown.py` xác nhận 0 tài nguyên tính phí, và đối soát số dư an toàn trên AWS Learner Lab Dashboard ($18.1 / $50).
+
+* Link Video Demo trực tiếp: [https://drive.google.com/file/d/1dhWreqLEgqtqwZTe-_w1gkN2HBoCfJsX/view?usp=sharing](https://drive.google.com/file/d/1dhWreqLEgqtqwZTe-_w1gkN2HBoCfJsX/view?usp=sharing)
+
+---
+
+### 4. Quy Trình Thu Dọn Tài Nguyên Toàn Diện (Final Teardown)
 Để kết thúc đồ án trong trạng thái an toàn tuyệt đối, em chạy rà soát toàn bộ tài nguyên trên AWS:
 1. **Chạy script dọn dẹp tự động:** Thực thi file [scripts/teardown.py](https://github.com/TBL251/Cloud/blob/main/scripts/teardown.py) để quét sạch:
    * 0 Endpoint nào đang chạy (Status: InService/Creating = 0).
@@ -66,16 +81,14 @@ Dựa trên các số liệu đo lường thực tế từ Tuần 3 (Notebook 03
 
 ---
 
-
-
 ## 4. BẢNG COMMIT GITHUB TRONG TUẦN (KÈM LINK COMMIT CỤ THỂ)
 
 Tuần 4 em thực hiện commit hoàn thiện báo cáo và tài liệu tổng kết trên nhánh `main`:
 
 | STT | Mã Commit (SHA) | Nội dung Commit | Link Commit trên GitHub |
 | :---: | :---: | :--- | :---: |
-| 1 | `2ba9016` | Hoàn thiện báo cáo tiến độ tuần 3 đầy đủ số liệu thực nghiệm và minh chứng ảnh | [Commit 2ba9016](https://github.com/TBL251/Cloud/commit/2ba901657c945fe4240742f5aa2049e3be5b0785) |
-| 2 | `0502bdb` | Hoàn thiện báo cáo tiến độ tuần 4 tổng kết chi phí thực tế và đối chuẩn kỹ thuật | [Commit 0502bdb](https://github.com/TBL251/Cloud/commit/0502bdb2d79d07f4e069f6ccf2c64a20ae3b822c) |
+| 1 | `5801dee` | Hoàn thiện báo cáo tiến độ tuần 4 tổng kết chi phí thực tế và đối chuẩn kỹ thuật | [Commit 5801dee](https://github.com/TBL251/Cloud/commit/5801deea78a671463c332d3b1380840c3600db03) |
+| 2 | `35566bd` | Cập nhật README, worklog và tối ưu gitignore cho video demo đồ án | [Commit 35566bd](https://github.com/TBL251/Cloud/commit/35566bde68069580c42ff898db271eb003e3f11f) |
 
 ---
 
